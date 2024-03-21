@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "update-deps": "deno run -A --quiet 'https://deno.land/x/udd@0.8.2/main.ts' deps.ts"
+  }
+}
