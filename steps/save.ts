@@ -1,5 +1,5 @@
-import { colors, ensureDir, join } from "../deps.ts";
-import type { Init, LumePlugin } from "../init.ts";
+import { colors, dirname, ensureDir, join } from "../deps.ts";
+import type { Init, LumeConfig } from "../init.ts";
 
 export default function () {
   return async ({ path, lume, deno, files }: Init) => {
@@ -13,7 +13,7 @@ export default function () {
     console.log("File saved:", colors.gray(denoFile));
 
     // Save Lume configuration file
-    const code = renderLumeConfig(lume.plugins);
+    const code = renderLumeConfig(lume);
     const lumeFile = join(path, lume.file);
 
     await Deno.writeTextFile(lumeFile, code);
@@ -22,6 +22,7 @@ export default function () {
     // Save additional files
     for (const [file, content] of files) {
       const filePath = join(path, file);
+      await ensureDir(dirname(filePath));
 
       if (typeof content === "string") {
         await Deno.writeTextFile(filePath, content);
@@ -34,7 +35,7 @@ export default function () {
   };
 }
 
-function renderLumeConfig(plugins: LumePlugin[]): string {
+function renderLumeConfig({ src, plugins }: LumeConfig): string {
   const code = [`import lume from "lume/mod.ts";`];
 
   for (const { name, url } of plugins) {
@@ -46,7 +47,11 @@ function renderLumeConfig(plugins: LumePlugin[]): string {
   }
 
   code.push("");
-  code.push("const site = lume();");
+  if (src) {
+    code.push(`const site = lume({ src: "${src}" });`);
+  } else {
+    code.push("const site = lume();");
+  }
 
   if (plugins.length) {
     code.push("");

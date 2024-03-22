@@ -1,3 +1,4 @@
+import { parseArgs } from "./deps.ts";
 import { Init } from "./init.ts";
 import config from "./steps/config.ts";
 import cms from "./steps/cms.ts";
@@ -7,8 +8,8 @@ import save from "./steps/save.ts";
 import plugins from "./steps/plugins.ts";
 import success from "./steps/success.ts";
 
-export default function init(path = ".") {
-  const init = new Init(path);
+export default function init(path: string, src: string) {
+  const init = new Init(path, src);
 
   init.use(version());
   init.use(config());
@@ -22,7 +23,11 @@ export default function init(path = ".") {
 }
 
 if (import.meta.main) {
-  const path = Deno.args[0] || ".";
-  const process = init(path);
+  const args = parseArgs(Deno.args, {
+    string: ["src"],
+  });
+  const path = args._[0] || ".";
+  const src = args.src || "";
+  const process = init(String(path), src);
   process.run();
 }

@@ -20,6 +20,7 @@ export interface LumePlugin {
 export interface LumeConfig {
   file: string;
   plugins: LumePlugin[];
+  src: string;
   theme?: Theme;
 }
 
@@ -54,18 +55,18 @@ type Step = (init: Init) => false | void | Promise<void | false>;
 /** Class to manage the initialization */
 export class Init {
   path: string;
-  src: string;
   steps = new Map<number, Step[]>();
   deno: DenoConfig = {};
   lume: LumeConfig = {
     file: "",
+    src: "",
     plugins: [],
   };
   files = new Map<string, string | Uint8Array>();
 
   constructor(path: string, src = "") {
     this.path = path;
-    this.src = src;
+    this.lume.src = src !== "" && !src.startsWith("/") ? `/${src}` : src;
   }
 
   use(step: Step, order = 0) {

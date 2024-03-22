@@ -6,7 +6,7 @@ const themes: Theme[] =
   await (await fetch("https://lumeland.github.io/themes/themes.json")).json();
 
 export default function () {
-  return async ({ lume, deno, files, src }: Init) => {
+  return async ({ lume, deno, files }: Init) => {
     const useTheme = await Select.prompt({
       message: "Do you want to setup a theme?",
       options: [
@@ -61,7 +61,7 @@ export default function () {
     // Configure extra files
     const srcdir = theme.module.srcdir ?? "/src";
     for (const file of theme.module.src ?? []) {
-      files.set(src + file, await loadFile(origin + srcdir + file));
+      files.set(lume.src + file, await loadFile(origin + srcdir + file));
     }
   };
 }
