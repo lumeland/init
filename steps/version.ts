@@ -5,7 +5,9 @@ export default function () {
   return async ({ deno }: Init) => {
     // Configure the import map
     const version = await getLatestVersion("lume");
-    console.log(`Using the latest stable version of Lume: ${version}.`);
+    console.log();
+    console.log(`Welcome to Lume ${version}!`);
+    console.log();
 
     deno.imports ??= {};
     deno.imports["lume/"] = `https://deno.land/x/lume@${version}/`;
