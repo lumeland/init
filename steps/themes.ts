@@ -6,7 +6,7 @@ const themes: Theme[] =
   await (await fetch("https://lumeland.github.io/themes/themes.json")).json();
 
 export default function () {
-  return async ({ lume, deno, files }: Init) => {
+  return async ({ lume, deno, files, src }: Init) => {
     const useTheme = await Select.prompt({
       message: "Do you want to setup a theme?",
       options: [
@@ -52,10 +52,16 @@ export default function () {
     deno.imports ??= {};
     deno.imports[`${name}/`] = `${origin}/`;
 
+    // Configure the CMS
+    if (theme.module.cms) {
+      const name = theme.module.cms.endsWith(".ts") ? "/_cms.ts" : "/_cms.js";
+      files.set(name, await loadFile(origin + theme.module.cms));
+    }
+
     // Configure extra files
-    for (const [file, path] of Object.entries(theme.module.files ?? {})) {
-      const content = await loadFile(origin + path);
-      files.set(file, content);
+    const srcdir = theme.module.srcdir ?? "/src";
+    for (const file of theme.module.src ?? []) {
+      files.set(src + file, await loadFile(origin + srcdir + file));
     }
   };
 }

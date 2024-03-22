@@ -20,7 +20,7 @@ export async function resolveOrigin(url: string): Promise<string> {
   return `https://deno.land/x/${name}@${version}`;
 }
 
-export async function loadFile(url: string): Promise<string> {
+export async function loadFile(url: string): Promise<Uint8Array> {
   const response = await fetch(url);
-  return response.text();
+  return new Uint8Array(await response.arrayBuffer());
 }

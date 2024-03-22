@@ -42,7 +42,9 @@ export interface Theme {
     name: string;
     origin: string;
     main: string;
-    files?: string[];
+    cms?: string;
+    src?: string[];
+    srcdir?: string;
   };
 }
 
@@ -52,6 +54,7 @@ type Step = (init: Init) => false | void | Promise<void | false>;
 /** Class to manage the initialization */
 export class Init {
   path: string;
+  src: string;
   steps = new Map<number, Step[]>();
   deno: DenoConfig = {};
   lume: LumeConfig = {
@@ -60,8 +63,9 @@ export class Init {
   };
   files = new Map<string, string | Uint8Array>();
 
-  constructor(path: string) {
+  constructor(path: string, src = "") {
     this.path = path;
+    this.src = src;
   }
 
   use(step: Step, order = 0) {

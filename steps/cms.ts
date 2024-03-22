@@ -10,6 +10,10 @@ export default function () {
       return;
     }
 
+    if (lume.theme) {
+      return;
+    }
+
     const useCms = await Select.prompt({
       message: "Do you want to setup a CMS?",
       options: [
