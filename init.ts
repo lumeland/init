@@ -26,6 +26,7 @@ export interface LumeConfig {
 
 /** Theme manifest */
 export interface Theme {
+  id: string;
   name: string;
   description: string;
   tags: string[];
@@ -52,8 +53,15 @@ export interface Theme {
 /** Step of the initialization */
 type Step = (init: Init) => false | void | Promise<void | false>;
 
+export interface InitConfig {
+  path: string;
+  src?: string;
+  theme?: string;
+}
+
 /** Class to manage the initialization */
 export class Init {
+  config: InitConfig;
   path: string;
   steps = new Map<number, Step[]>();
   deno: DenoConfig = {};
@@ -64,9 +72,11 @@ export class Init {
   };
   files = new Map<string, string | Uint8Array>();
 
-  constructor(path: string, src = "") {
-    this.path = path;
-    this.lume.src = src !== "" && !src.startsWith("/") ? `/${src}` : src;
+  constructor(config: InitConfig) {
+    this.config = config;
+    this.path = config.path;
+    const src = config.src || "";
+    this.lume.src = config.src !== "" && !src.startsWith("/") ? `/${src}` : src;
   }
 
   use(step: Step, order = 0) {

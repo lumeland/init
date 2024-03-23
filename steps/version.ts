@@ -1,3 +1,4 @@
+import { colors } from "../deps.ts";
 import { getLatestVersion } from "./utils.ts";
 import type { Init } from "../init.ts";
 
@@ -6,7 +7,7 @@ export default function () {
     // Configure the import map
     const version = await getLatestVersion("lume");
     console.log();
-    console.log(`Welcome to Lume ${version}!`);
+    console.log(`Welcome to Lume ${colors.brightGreen(version)}!`);
     console.log();
 
     deno.imports ??= {};
