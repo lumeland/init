@@ -2,7 +2,25 @@ import { Checkbox, Select } from "../deps.ts";
 import type { DenoConfig, Init } from "../init.ts";
 
 export default function () {
-  return async ({ deno, lume }: Init) => {
+  return async ({ deno, lume, config }: Init) => {
+    if (config.plugins) {
+      const available = await getAvailablePlugins(deno);
+      const invalid = config.plugins.filter((name) =>
+        !available.includes(name)
+      );
+
+      if (invalid.length) {
+        throw new Error(
+          `The following plugins are not available: ${invalid.join(", ")}`,
+        );
+      }
+      initPlugins(config.plugins, deno);
+      config.plugins.forEach((name) => {
+        lume.plugins.push({ name });
+      });
+      return;
+    }
+
     if (lume.theme) {
       return;
     }
@@ -26,18 +44,9 @@ export default function () {
       return;
     }
 
-    const base = deno.imports?.["lume/"];
-
-    if (!base) {
-      return;
-    }
-
-    const url = `${base}core/utils/lume_config.ts`;
-    const { pluginNames } = await import(url);
-
     const plugins = await Checkbox.prompt({
       message: "Select the plugins to install",
-      options: pluginNames,
+      options: await getAvailablePlugins(deno),
       hint: "Use Arrow keys and Space to select. Enter to submit",
     });
 
@@ -47,6 +56,19 @@ export default function () {
       lume.plugins.push({ name });
     });
   };
+}
+
+async function getAvailablePlugins(deno: DenoConfig) {
+  const base = deno.imports?.["lume/"];
+
+  if (!base) {
+    return [];
+  }
+
+  const url = `${base}core/utils/lume_config.ts`;
+  const { pluginNames } = await import(url);
+
+  return pluginNames;
 }
 
 function initPlugins(plugins: string[], deno: DenoConfig) {

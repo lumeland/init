@@ -57,6 +57,7 @@ export interface InitConfig {
   path: string;
   src?: string;
   theme?: string;
+  plugins?: string[];
 }
 
 /** Class to manage the initialization */

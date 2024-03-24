@@ -19,6 +19,10 @@ export default function () {
       return false;
     }
 
+    if (config.plugins) {
+      return;
+    }
+
     const useTheme = await Select.prompt({
       message: "Do you want to setup a theme?",
       options: [

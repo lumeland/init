@@ -24,7 +24,7 @@ export default function init(initConfig: InitConfig) {
 
 if (import.meta.main) {
   const args = parseArgs(Deno.args, {
-    string: ["src", "theme"],
+    string: ["src", "theme", "plugins"],
   });
 
   const path = args._[0] || ".";
@@ -32,6 +32,7 @@ if (import.meta.main) {
     path: String(path),
     src: args.src,
     theme: args.theme,
+    plugins: args.plugins ? args.plugins.split(",") : undefined,
   });
   process.run();
 }
