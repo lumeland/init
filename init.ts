@@ -77,7 +77,7 @@ export class Init {
     this.config = config;
     this.path = config.path;
     const src = config.src || "";
-    this.lume.src = config.src !== "" && !src.startsWith("/") ? `/${src}` : src;
+    this.lume.src = src !== "" && !src.startsWith("/") ? `/${src}` : src;
   }
 
   use(step: Step, order = 0) {

@@ -47,7 +47,7 @@ function renderLumeConfig({ src, plugins }: LumeConfig): string {
   }
 
   code.push("");
-  if (src) {
+  if (join("/", src) !== "/") {
     code.push(`const site = lume({ src: "${src}" });`);
   } else {
     code.push("const site = lume();");
