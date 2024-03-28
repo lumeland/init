@@ -80,8 +80,18 @@ async function setupTheme(
 
   // Configure the CMS
   if (theme.module.cms) {
-    const name = theme.module.cms.endsWith(".ts") ? "/_cms.ts" : "/_cms.js";
-    files.set(name, await loadFile(origin + theme.module.cms));
+    const name = lume.file.endsWith(".js") ? "/_cms.js" : "/_cms.ts";
+    const url = theme.module.name + theme.module.cms;
+
+    files.set(
+      name,
+      [
+        `import cms from "${url}";`,
+        "",
+        "export default cms;",
+        "",
+      ].join("\n"),
+    );
   }
 
   // Configure extra files
