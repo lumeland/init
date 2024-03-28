@@ -22,17 +22,21 @@ export default function init(initConfig: InitConfig) {
   return init;
 }
 
-if (import.meta.main) {
-  const args = parseArgs(Deno.args, {
+export function run(args: string[] = Deno.args) {
+  const parsed = parseArgs(args, {
     string: ["src", "theme", "plugins"],
   });
 
-  const path = args._[0] || ".";
+  const path = parsed._[0] || ".";
   const process = init({
     path: String(path),
-    src: args.src,
-    theme: args.theme,
-    plugins: args.plugins ? args.plugins.split(",") : undefined,
+    src: parsed.src,
+    theme: parsed.theme,
+    plugins: parsed.plugins ? parsed.plugins.split(",") : undefined,
   });
   process.run();
+}
+
+if (import.meta.main) {
+  run();
 }
