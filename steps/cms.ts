@@ -1,4 +1,5 @@
 import { Select } from "../deps.ts";
+import { getLatestGitHubTag } from "./utils.ts";
 import type { DenoConfig, Init } from "../init.ts";
 
 export default function () {
@@ -6,7 +7,7 @@ export default function () {
     const hasCms = files.has("/_cms.ts") || files.has("/_cms.js");
 
     if (hasCms) {
-      createCmsTask(deno);
+      await configureCms(deno);
       return;
     }
 
@@ -35,7 +36,7 @@ export default function () {
 
     const file = lume.file.endsWith(".ts") ? "_cms.ts" : "_cms.js";
     const content = [
-      'import lumeCMS from "lume/cms.ts";',
+      'import lumeCMS from "lume/cms/mod.ts";',
       "",
       "const cms = lumeCMS();",
       "",
@@ -44,11 +45,16 @@ export default function () {
     ].join("\n");
 
     files.set(file, content);
-    createCmsTask(deno);
+    await configureCms(deno);
   };
 }
 
-function createCmsTask(config: DenoConfig) {
-  config.tasks ??= {};
-  config.tasks.cms = `deno task lume cms`;
+async function configureCms(deno: DenoConfig) {
+  deno.tasks ??= {};
+  deno.tasks.cms = `deno task lume cms`;
+
+  const version = await getLatestGitHubTag("lumeland/cms");
+  deno.imports ??= {};
+  deno.imports["lume/cms/"] =
+    `https://cdn.jsdelivr.net/gh/lumeland/cms@${version}/`;
 }

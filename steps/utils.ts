@@ -7,6 +7,14 @@ export async function getLatestVersion(name: string): Promise<string> {
   return versions.latest;
 }
 
+export async function getLatestGitHubTag(name: string): Promise<string> {
+  const response = await fetch(
+    `https://api.github.com/repos/${name}/tags`,
+  );
+  const tags = await response.json();
+  return tags[0].name;
+}
+
 export async function resolveOrigin(url: string): Promise<string> {
   const results = url.match(/^https:\/\/deno.land\/x\/([^\/]+)$/);
 
