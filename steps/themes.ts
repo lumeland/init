@@ -78,6 +78,11 @@ async function setupTheme(
   deno.imports ??= {};
   deno.imports[`${name}/`] = `${origin}/`;
 
+  if (theme.module.unstable?.length) {
+    deno.unstable ??= [];
+    deno.unstable = [...new Set([...deno.unstable, ...theme.module.unstable])];
+  }
+
   // Configure the CMS
   if (theme.module.cms) {
     const name = lume.file.endsWith(".js") ? "/_cms.js" : "/_cms.ts";

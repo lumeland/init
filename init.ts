@@ -7,6 +7,7 @@ export interface DenoConfig {
     jsxImportSource?: string;
     types?: string[];
   };
+  unstable?: string[];
   [key: string]: unknown;
 }
 
@@ -47,6 +48,7 @@ export interface Theme {
     cms?: string;
     src?: string[];
     srcdir?: string;
+    unstable?: string[];
   };
 }
 
