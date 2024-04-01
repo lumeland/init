@@ -2,13 +2,17 @@
 export interface DenoConfig {
   imports?: Record<string, string>;
   tasks?: Record<string, string>;
-  compilerOptions?: {
-    jsx?: "jsx" | "react-jsx" | "precompile";
-    jsxImportSource?: string;
-    types?: string[];
-  };
+  compilerOptions?: CompilerOptions;
   unstable?: string[];
   [key: string]: unknown;
+}
+
+export interface CompilerOptions {
+  jsx?: "jsx" | "react-jsx" | "precompile";
+  jsxImportSource?: string;
+  jsxFactory?: string;
+  jsxFragmentFactory?: string;
+  types?: string[];
 }
 
 /** Lume plugin options */
@@ -49,6 +53,8 @@ export interface Theme {
     src?: string[];
     srcdir?: string;
     unstable?: string[];
+    imports?: Record<string, string>;
+    compilerOptions?: CompilerOptions;
   };
 }
 

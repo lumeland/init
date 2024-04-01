@@ -47,6 +47,9 @@ export default function () {
       value: String(key),
     }));
 
+    // Sort themes by name
+    options.sort((a, b) => a.name.localeCompare(b.name));
+
     const themeKey = await Select.prompt({
       message: "Select a theme",
       options,
@@ -78,9 +81,30 @@ async function setupTheme(
   deno.imports ??= {};
   deno.imports[`${name}/`] = `${origin}/`;
 
+  // Configure the unstable APIs
   if (theme.module.unstable?.length) {
     deno.unstable ??= [];
     deno.unstable = [...new Set([...deno.unstable, ...theme.module.unstable])];
+  }
+
+  // Configure the compiler options
+  if (theme.module.compilerOptions) {
+    deno.compilerOptions ??= {};
+    deno.compilerOptions = {
+      ...deno.compilerOptions,
+      ...theme.module.compilerOptions,
+    };
+  }
+
+  // Configure extra imports
+  if (theme.module.imports) {
+    for (const [key, value] of Object.entries(theme.module.imports)) {
+      if (value.startsWith(".")) {
+        deno.imports[key] = `${origin}${value.substring(1)}`;
+        continue;
+      }
+      deno.imports[key] = value;
+    }
   }
 
   // Configure the CMS
