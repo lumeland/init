@@ -6,7 +6,7 @@ export default function () {
     await ensureDir(path);
 
     // Save Deno configuration file
-    const content = JSON.stringify(deno, null, 2);
+    const content = JSON.stringify(deno, null, 2) + "\n";
     const denoFile = join(path, "deno.json");
 
     await Deno.writeTextFile(denoFile, content);

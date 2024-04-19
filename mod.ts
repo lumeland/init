@@ -7,6 +7,7 @@ import themes from "./steps/themes.ts";
 import save from "./steps/save.ts";
 import plugins from "./steps/plugins.ts";
 import success from "./steps/success.ts";
+import git from "./steps/git.ts";
 
 export default function init(initConfig: InitConfig) {
   const init = new Init(initConfig);
@@ -15,6 +16,7 @@ export default function init(initConfig: InitConfig) {
   init.use(config());
   init.use(themes());
   init.use(plugins());
+  init.use(git());
   init.use(cms());
   init.use(save(), 10);
   init.use(success(), 100);
