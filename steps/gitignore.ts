@@ -1,10 +1,11 @@
 import type { Init } from "../init.ts";
 
-export default function () {
+export default function() {
   return ({ files }: Init) => {
     const paths = [
-      "_site",
-      "_cache",
+      "# Ignore IDEA settings \n .vscode \n .idea \n",
+      "# Ignore the output directory \n _site \n",
+      "# Ignore the cache directory \n _cache \n",
     ];
 
     if (Deno.build.os === "darwin") {
