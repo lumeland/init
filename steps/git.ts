@@ -3,8 +3,8 @@ import type { Init } from "../init.ts";
 export default function () {
   return ({ files }: Init) => {
     const paths = [
-      ".git",
-      ".gitignore",
+      "_site",
+      "_cache",
     ];
 
     if (Deno.build.os === "darwin") {
