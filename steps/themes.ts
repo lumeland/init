@@ -31,7 +31,7 @@ export default function () {
           value: "yes",
         },
         {
-          name: "Maybe later",
+          name: "No",
           value: "no",
         },
       ],
