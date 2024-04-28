@@ -24,7 +24,7 @@ export default function () {
     }
 
     const useTheme = await Select.prompt({
-      message: "Do you want to setup a theme?",
+      message: "Do you want to setup a theme? (More info at https://lume.land/themes/)",
       options: [
         {
           name: "Yes",
@@ -35,7 +35,6 @@ export default function () {
           value: "no",
         },
       ],
-      hint: "More info at https://lume.land/themes/",
     });
 
     if (useTheme !== "yes") {
