@@ -26,7 +26,8 @@ export default function () {
     }
 
     const usePlugins = await Select.prompt({
-      message: "Do you want to install some plugins now? (See all available plugins at https://lume.land/plugins/)",
+      message:
+        "Do you want to install some plugins now? (See all available plugins at https://lume.land/plugins/)",
       options: [
         {
           name: "Yes",

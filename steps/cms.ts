@@ -16,7 +16,8 @@ export default function () {
     }
 
     const useCms = await Select.prompt({
-      message: "Do you want to setup a CMS? (More info at https://lume.land/cms/)",
+      message:
+        "Do you want to setup a CMS? (More info at https://lume.land/cms/)",
       options: [
         {
           name: "Yes",
