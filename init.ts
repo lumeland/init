@@ -10,6 +10,7 @@ export interface DenoConfig {
 export interface CompilerOptions {
   jsx?: "jsx" | "react-jsx" | "precompile";
   jsxImportSource?: string;
+  jsxImportSourceTypes?: string;
   jsxFactory?: string;
   jsxFragmentFactory?: string;
   types?: string[];

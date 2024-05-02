@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.12] - 2024-05-02
+### Changed
+- Use `jsxImportSourceTypes` introduced in Deno 1.43 instead of `types` array.
+
 ## [0.1.11] - 2024-04-29
 ### Changed
 - Replaced "Maybe later" with "No" for clarity [#3].
@@ -67,6 +71,7 @@ First version
 [#1]: https://github.com/lumeland/init/issues/1
 [#3]: https://github.com/lumeland/init/issues/3
 
+[0.1.12]: https://github.com/lumeland/init/compare/v0.1.11...v0.1.12
 [0.1.11]: https://github.com/lumeland/init/compare/v0.1.10...v0.1.11
 [0.1.10]: https://github.com/lumeland/init/compare/v0.1.9...v0.1.10
 [0.1.9]: https://github.com/lumeland/init/compare/v0.1.8...v0.1.9

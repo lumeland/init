@@ -101,12 +101,7 @@ function initPlugins(plugins: string[], deno: DenoConfig) {
     deno.compilerOptions ||= {};
     deno.compilerOptions.jsx = "react-jsx";
     deno.compilerOptions.jsxImportSource = "npm:react";
-
-    // Add React types:
-    deno.compilerOptions.types ||= [];
-    deno.compilerOptions.types.push(
-      "https://unpkg.com/@types/react@18.2.67/index.d.ts",
-    );
+    deno.compilerOptions.jsxImportSourceTypes = "npm:@types/react";
   }
 
   if (plugins.includes("jsx_preact")) {
