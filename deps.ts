@@ -8,3 +8,5 @@ export { dirname } from "https://deno.land/std@0.224.0/path/posix/dirname.ts";
 export { ensureDir } from "https://deno.land/std@0.224.0/fs/ensure_dir.ts";
 export * as colors from "https://deno.land/std@0.224.0/fmt/colors.ts";
 export { parseArgs } from "https://deno.land/std@0.224.0/cli/parse_args.ts";
+export { lessThan } from "https://deno.land/std@0.224.0/semver/less_than.ts";
+export { parse } from "https://deno.land/std@0.224.0/semver/parse.ts";

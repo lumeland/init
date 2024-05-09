@@ -1,9 +1,21 @@
-import { colors } from "../deps.ts";
+import { colors, lessThan, parse } from "../deps.ts";
 import { getLatestVersion } from "./utils.ts";
 import type { Init } from "../init.ts";
 
+const minimum = "1.43.0";
+const current = Deno.version.deno;
+
 export default function () {
   return async ({ deno }: Init) => {
+    if (lessThan(parse(current), parse(minimum))) {
+      console.log();
+      console.log(`Lume needs Deno ${colors.green("v" + minimum)} or greater`);
+      console.log(`Your current Deno version is ${colors.red(current)}`);
+      console.log(`Run ${colors.cyan("deno upgrade")} and try again`);
+      console.log();
+      return false;
+    }
+
     // Configure the import map
     const version = await getLatestVersion("lume");
     console.log();
