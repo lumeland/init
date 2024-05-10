@@ -15,5 +15,5 @@ jobs:
       - name: Run lint
         run: deno lint
       - name: Incompatible Deno version
-        run: deno run mod.ts
+        run: deno run --allow-net mod.ts
 
