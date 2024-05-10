@@ -27,6 +27,8 @@ export default function init(initConfig: InitConfig) {
 export function run(args: string[] = Deno.args) {
   const parsed = parseArgs(args, {
     string: ["src", "theme", "plugins"],
+    boolean: ["dev"],
+    alias: { dev: "d" },
   });
 
   const path = parsed._[0] || ".";
@@ -34,6 +36,7 @@ export function run(args: string[] = Deno.args) {
     path: String(path),
     src: parsed.src,
     theme: parsed.theme,
+    dev: parsed.dev,
     plugins: parsed.plugins ? parsed.plugins.split(",") : undefined,
   });
   process.run();

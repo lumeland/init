@@ -60,6 +60,34 @@ export default function () {
   };
 }
 
+export function updateTheme() {
+  return async ({ lume, deno, files }: Init) => {
+    const theme = detectTheme(deno);
+
+    if (theme) {
+      await setupTheme(theme, lume, deno, files);
+    }
+  };
+}
+
+function detectTheme(deno: DenoConfig): Theme | undefined {
+  const { imports } = deno;
+
+  if (!imports) {
+    return;
+  }
+
+  for (const theme of themes) {
+    const origin = theme.module.origin;
+
+    for (const key in imports) {
+      if (imports[key].startsWith(origin)) {
+        return theme;
+      }
+    }
+  }
+}
+
 async function setupTheme(
   theme: Theme,
   lume: LumeConfig,

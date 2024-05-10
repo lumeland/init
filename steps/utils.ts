@@ -1,5 +1,7 @@
 /** Return the latest stable version from the deno.land/x repository */
-export async function getLatestVersion(name: string): Promise<string> {
+export async function getLatestVersion(
+  name: string,
+): Promise<string> {
   const response = await fetch(
     `https://cdn.deno.land/${name}/meta/versions.json`,
   );
@@ -13,6 +15,14 @@ export async function getLatestGitHubTag(name: string): Promise<string> {
   );
   const tags = await response.json();
   return tags[0].name;
+}
+
+export async function getLatestGitHubCommit(name: string): Promise<string> {
+  const response = await fetch(
+    `https://api.github.com/repos/${name}/commits/main`,
+  );
+  const commits = await response.json();
+  return commits.sha;
 }
 
 export async function resolveOrigin(url: string): Promise<string> {

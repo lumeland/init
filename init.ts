@@ -24,6 +24,7 @@ export interface LumePlugin {
 
 /** Lume configuration */
 export interface LumeConfig {
+  version: string;
   file: string;
   plugins: LumePlugin[];
   src: string;
@@ -63,6 +64,7 @@ export interface Theme {
 type Step = (init: Init) => false | void | Promise<void | false>;
 
 export interface InitConfig {
+  dev?: boolean;
   path: string;
   src?: string;
   theme?: string;
@@ -73,9 +75,11 @@ export interface InitConfig {
 export class Init {
   config: InitConfig;
   path: string;
+  dev: boolean;
   steps = new Map<number, Step[]>();
   deno: DenoConfig = {};
   lume: LumeConfig = {
+    version: "",
     file: "",
     src: "",
     plugins: [],
@@ -85,6 +89,7 @@ export class Init {
   constructor(config: InitConfig) {
     this.config = config;
     this.path = config.path;
+    this.dev = config.dev || false;
     const src = config.src || "";
     this.lume.src = src !== "" && !src.startsWith("/") ? `/${src}` : src;
   }
