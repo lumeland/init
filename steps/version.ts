@@ -8,7 +8,7 @@ const current = Deno.version.deno;
 export default function () {
   return async ({ deno, dev, lume }: Init) => {
     if (!checkDenoVersion()) {
-      return;
+      return false;
     }
 
     // Configure the import map
