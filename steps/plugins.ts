@@ -1,4 +1,4 @@
-import { Checkbox, Select } from "../deps.ts";
+import { Checkbox } from "../deps.ts";
 import type { DenoConfig, Init } from "../init.ts";
 
 export default function () {
@@ -21,31 +21,13 @@ export default function () {
       return;
     }
 
-    if (lume.theme) {
-      return;
-    }
-
-    const usePlugins = await Select.prompt({
-      message:
-        "Do you want to install some plugins now? (See all available plugins at https://lume.land/plugins/)",
-      options: [
-        {
-          name: "Yes",
-          value: "yes",
-        },
-        {
-          name: "No",
-          value: "no",
-        },
-      ],
-    });
-
-    if (usePlugins === "no") {
+    if (config.mode !== "plugins") {
       return;
     }
 
     const plugins = await Checkbox.prompt({
-      message: "Select the plugins to install",
+      message:
+        "Select the plugins to install (More info at https://lume.land/plugins/)",
       options: await getAvailablePlugins(deno),
       hint: "Use Arrow keys and Space to select. Enter to submit",
     });

@@ -1,4 +1,4 @@
-import { Select } from "../deps.ts";
+import { join, Select } from "../deps.ts";
 import { loadFile, resolveOrigin } from "./utils.ts";
 import type { DenoConfig, Init, LumeConfig, Theme } from "../init.ts";
 
@@ -19,26 +19,7 @@ export default function () {
       return false;
     }
 
-    if (config.plugins) {
-      return;
-    }
-
-    const useTheme = await Select.prompt({
-      message:
-        "Do you want to setup a theme? (More info at https://lume.land/themes/)",
-      options: [
-        {
-          name: "Yes",
-          value: "yes",
-        },
-        {
-          name: "No",
-          value: "no",
-        },
-      ],
-    });
-
-    if (useTheme !== "yes") {
+    if (config.mode !== "theme") {
       return;
     }
 
@@ -51,7 +32,7 @@ export default function () {
     options.sort((a, b) => a.name.localeCompare(b.name));
 
     const themeKey = await Select.prompt({
-      message: "Select a theme",
+      message: "Select a theme (More info at https://lume.land/themes/)",
       options,
     });
 
@@ -152,8 +133,11 @@ async function setupTheme(
   }
 
   // Configure extra files
-  const srcdir = theme.module.srcdir ?? "/src";
+  const srcdir = theme.module.srcdir ?? "";
   for (const file of theme.module.src ?? []) {
-    files.set(lume.src + file, await loadFile(origin + srcdir + file));
+    files.set(
+      lume.src + file,
+      await loadFile(origin + join("/", srcdir, file)),
+    );
   }
 }

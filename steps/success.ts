@@ -21,12 +21,12 @@ export default function () {
 
     if (path !== ".") {
       message.push(
-        `  - Enter in the project directory: ${brightGreen(`cd ${path}`)}`,
+        `  ${brightGreen(`cd ${path}`)} to enter the project directory`,
       );
     }
 
     message.push(
-      `  - Run ${brightGreen("deno task serve")} to start a local server`,
+      `  ${brightGreen("deno task serve")} to start a local server`,
     );
 
     if (deno.tasks?.cms) {

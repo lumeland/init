@@ -69,6 +69,8 @@ export interface InitConfig {
   src?: string;
   theme?: string;
   plugins?: string[];
+  mode?: string;
+  cms?: boolean;
 }
 
 /** Class to manage the initialization */

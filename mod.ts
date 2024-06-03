@@ -2,7 +2,7 @@ import { parseArgs } from "./deps.ts";
 import { Init, type InitConfig } from "./init.ts";
 import config from "./steps/config.ts";
 import cms from "./steps/cms.ts";
-import version from "./steps/version.ts";
+import start from "./steps/start.ts";
 import themes from "./steps/themes.ts";
 import save from "./steps/save.ts";
 import plugins from "./steps/plugins.ts";
@@ -12,7 +12,7 @@ import git from "./steps/git.ts";
 export default function init(initConfig: InitConfig) {
   const init = new Init(initConfig);
 
-  init.use(version());
+  init.use(start());
   init.use(config());
   init.use(themes());
   init.use(plugins());
@@ -27,9 +27,25 @@ export default function init(initConfig: InitConfig) {
 export function run(args: string[] = Deno.args) {
   const parsed = parseArgs(args, {
     string: ["src", "theme", "plugins"],
-    boolean: ["dev"],
-    alias: { dev: "d" },
+    boolean: ["dev", "help", "no-cms", "cms"],
+    alias: { dev: "d", help: "h" },
   });
+
+  if (parsed.help) {
+    console.log(`
+  Usage:
+    init.ts [path] [options]
+
+  Options:
+    -h, --help        Show this help
+    -d, --dev         Use the development version
+    --src             The source directory
+    --theme           The theme to install
+    --plugins         The plugins to install
+    --cms             To install the CMS (use --no-cms to disable)
+`);
+    Deno.exit();
+  }
 
   const path = parsed._[0] || ".";
   const process = init({
@@ -37,6 +53,7 @@ export function run(args: string[] = Deno.args) {
     src: parsed.src,
     theme: parsed.theme,
     dev: parsed.dev,
+    cms: parsed.cms || (parsed["no-cms"] ? false : undefined),
     plugins: parsed.plugins ? parsed.plugins.split(",") : undefined,
   });
   process.run();

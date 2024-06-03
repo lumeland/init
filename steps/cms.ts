@@ -3,7 +3,7 @@ import { getLatestGitHubCommit, getLatestGitHubTag } from "./utils.ts";
 import type { DenoConfig, Init } from "../init.ts";
 
 export default function () {
-  return async ({ lume, deno, files, dev }: Init) => {
+  return async ({ lume, deno, files, dev, config }: Init) => {
     const hasCms = files.has("/_cms.ts") || files.has("/_cms.js");
 
     if (hasCms) {
@@ -11,27 +11,29 @@ export default function () {
       return;
     }
 
-    if (lume.theme) {
+    if (lume.theme || config.cms === false) {
       return;
     }
 
-    const useCms = await Select.prompt({
-      message:
-        "Do you want to setup a CMS? (More info at https://lume.land/cms/)",
-      options: [
-        {
-          name: "Yes",
-          value: "yes",
-        },
-        {
-          name: "No",
-          value: "no",
-        },
-      ],
-    });
+    if (config.cms === undefined) {
+      const useCms = await Select.prompt({
+        message:
+          "Do you want to setup a CMS? (More info at https://lume.land/cms/)",
+        options: [
+          {
+            name: "Yes",
+            value: "yes",
+          },
+          {
+            name: "No",
+            value: "no",
+          },
+        ],
+      });
 
-    if (useCms !== "yes") {
-      return;
+      if (useCms !== "yes") {
+        return;
+      }
     }
 
     const file = lume.file.endsWith(".ts") ? "_cms.ts" : "_cms.js";

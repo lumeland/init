@@ -1,4 +1,4 @@
-import { colors, lessThan, parse } from "../deps.ts";
+import { colors, lessThan, parse, Select } from "../deps.ts";
 import { getLatestGitHubCommit, getLatestVersion } from "./utils.ts";
 import type { DenoConfig, Init } from "../init.ts";
 
@@ -6,7 +6,7 @@ const minimum = "1.43.0";
 const current = Deno.version.deno;
 
 export default function () {
-  return async ({ deno, dev, lume }: Init) => {
+  return async ({ deno, dev, lume, config }: Init) => {
     if (!checkDenoVersion()) {
       return false;
     }
@@ -22,6 +22,24 @@ export default function () {
 
     lume.version = version;
     configureLume(deno, version);
+
+    config.mode = await Select.prompt({
+      message: "What kind of setup do you want?",
+      options: [
+        {
+          name: "Basic",
+          value: "basic",
+        },
+        {
+          name: "Basic + plugins",
+          value: "plugins",
+        },
+        {
+          name: "Install a theme",
+          value: "theme",
+        },
+      ],
+    });
   };
 }
 
