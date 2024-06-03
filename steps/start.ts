@@ -23,6 +23,10 @@ export default function () {
     lume.version = version;
     configureLume(deno, version);
 
+    if (config.theme || config.plugins) {
+      return;
+    }
+
     config.mode = await Select.prompt({
       message: "What kind of setup do you want?",
       options: [

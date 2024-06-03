@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.2.1] - 2024-06-03
+### Fixed
+- Don't ask for mode if `--plugins` or `--theme` is passed.
+
 ## [0.2.0] - 2024-06-03
 ### Added
 - Check Deno version
@@ -81,6 +85,7 @@ First version
 [#1]: https://github.com/lumeland/init/issues/1
 [#3]: https://github.com/lumeland/init/issues/3
 
+[0.2.1]: https://github.com/lumeland/init/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/lumeland/init/compare/v0.1.12...v0.2.0
 [0.1.12]: https://github.com/lumeland/init/compare/v0.1.11...v0.1.12
 [0.1.11]: https://github.com/lumeland/init/compare/v0.1.10...v0.1.11
