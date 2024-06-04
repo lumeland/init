@@ -82,7 +82,7 @@ function configureLume(deno: DenoConfig, version: string) {
   deno.imports ??= {};
 
   deno.imports["lume/"] = version.length === 40 // GitHub commit hash
-    ? `https://cdn.jsdelivr.net/gh/lumeland/cms@${version}/`
+    ? `https://cdn.jsdelivr.net/gh/lumeland/lume@${version}/`
     : `https://deno.land/x/lume@${version}/`;
 
   // Configure lume tasks
