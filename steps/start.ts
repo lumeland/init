@@ -12,7 +12,9 @@ export default function () {
     }
 
     // Configure the import map
-    const version = dev
+    const version = config.version
+      ? config.version
+      : dev
       ? await getLatestGitHubCommit("lumeland/cms")
       : await getLatestVersion("lume");
 
@@ -48,12 +50,14 @@ export default function () {
 }
 
 export function updateLume() {
-  return async ({ deno, dev, lume }: Init) => {
+  return async ({ deno, dev, lume, config }: Init) => {
     if (!checkDenoVersion()) {
       return;
     }
 
-    const version = dev
+    const version = config.version
+      ? config.version
+      : dev
       ? await getLatestGitHubCommit("lumeland/lume")
       : await getLatestVersion("lume");
 

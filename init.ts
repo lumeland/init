@@ -71,6 +71,7 @@ export interface InitConfig {
   plugins?: string[];
   mode?: string;
   cms?: boolean;
+  version?: string;
 }
 
 /** Class to manage the initialization */

@@ -20,14 +20,29 @@ export default function init(initConfig: InitConfig) {
 
 export function run(args: string[] = Deno.args) {
   const parsed = parseArgs(args, {
-    boolean: ["dev"],
-    alias: { dev: "d" },
+    boolean: ["dev", "help"],
+    string: ["version"],
+    alias: { dev: "d", version: "v", help: "h" },
   });
+
+  if (parsed.help) {
+    console.log(`
+  Usage:
+    upgrade.ts [options]
+  
+  Options:
+    -h, --help        Show this help
+    -d, --dev         Use the development version
+    -v, --version     The version of Lume to install
+`);
+    Deno.exit();
+  }
 
   const path = parsed._[0] || ".";
   const process = init({
     path: String(path),
     dev: parsed.dev,
+    version: parsed.version,
   });
   process.run();
 }

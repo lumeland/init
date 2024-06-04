@@ -26,9 +26,9 @@ export default function init(initConfig: InitConfig) {
 
 export function run(args: string[] = Deno.args) {
   const parsed = parseArgs(args, {
-    string: ["src", "theme", "plugins"],
+    string: ["src", "theme", "plugins", "version"],
     boolean: ["dev", "help", "no-cms", "cms"],
-    alias: { dev: "d", help: "h" },
+    alias: { dev: "d", help: "h", version: "v" },
   });
 
   if (parsed.help) {
@@ -39,6 +39,7 @@ export function run(args: string[] = Deno.args) {
   Options:
     -h, --help        Show this help
     -d, --dev         Use the development version
+    -v, --version     The version of Lume to install
     --src             The source directory
     --theme           The theme to install
     --plugins         The plugins to install
@@ -51,6 +52,7 @@ export function run(args: string[] = Deno.args) {
   const process = init({
     path: String(path),
     src: parsed.src,
+    version: parsed.version,
     theme: parsed.theme,
     dev: parsed.dev,
     cms: parsed.cms || (parsed["no-cms"] ? false : undefined),
