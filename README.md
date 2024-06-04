@@ -45,11 +45,11 @@ deno run -Ar https://deno.land/x/lume_init/mod.ts --plugins=postcss,nunjucks
 
 ## Run from lume.land
 
-The website https://lume.land redirects automatically to the latest version of
-`lume_init`. For example:
+The website https://lume.land/init.ts redirects automatically to the latest
+version of `lume_init`. For example:
 
 ```sh
-deno run -Ar https://lume.land
+deno run -A https://lume.land/init.ts
 
 # is equivalent to:
 deno run -Ar https://deno.land/x/lume_init/mod.ts
