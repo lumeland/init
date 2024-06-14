@@ -1,5 +1,6 @@
 /** Content of deno.json file */
 export interface DenoConfig {
+  importMap?: string;
   imports?: Record<string, string>;
   tasks?: Record<string, string>;
   compilerOptions?: CompilerOptions;
