@@ -7,21 +7,22 @@ export default function () {
   return ({ path, deno, lume }: Init) => {
     const message = [
       "",
-      "🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥",
+      "🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥",
       "",
       bold("  BENVIDO - WELCOME! 🎉🎉🎉"),
       "",
-      "  Lume has configured successfully!",
-      "",
-      "🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥",
+      "  Lume has been configured successfully!",
+      lume.theme ? `  Theme installed: ${lume.theme.name}\n` : "",
+      "🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥",
       "",
     ];
 
     message.push(bold("Quick start:"));
+    message.push("");
 
     if (path !== ".") {
       message.push(
-        `  ${brightGreen(`cd ${path}`)} to enter the project directory`,
+        `  ${brightGreen(`cd ${path}`)} to enter in the project directory`,
       );
     }
 
@@ -31,41 +32,34 @@ export default function () {
 
     if (deno.tasks?.cms) {
       message.push(
-        `  - Or run ${
-          brightGreen("deno task cms")
-        } to start the server with the CMS`,
+        `  ${brightGreen("deno task cms")} to start the CMS`,
       );
     }
 
     message.push("");
-    message.push(`  See ${gray("https://lume.land")} for online documentation`);
+    message.push(`See ${gray("https://lume.land")} for online documentation`);
     message.push(
-      `  See ${
+      `See ${
         gray("https://discord.gg/YbTmpACHWB")
       } to propose new ideas and get help at Discord`,
     );
     message.push(
-      `  See ${
+      `See ${
         gray("https://github.com/lumeland/lume")
       } to view the source code and report issues`,
     );
+    if (lume.theme) {
+      message.push(
+        `See ${
+          gray(lume.theme.repo)
+        } to view the theme source code and report issues`,
+      );
+    }
     message.push(
-      `  See ${
+      `See ${
         gray("https://opencollective.com/lume")
       } to support Lume development`,
     );
-
-    if (lume.theme) {
-      message.push("");
-      message.push(bold("Theme configured:"));
-      message.push(`  ${brightGreen(lume.theme.name)}`);
-      message.push(`  ${lume.theme.description}`);
-      message.push(
-        `  See ${
-          gray(lume.theme.repo)
-        } to view the source code and report issues`,
-      );
-    }
 
     console.log(message.join("\n"));
   };

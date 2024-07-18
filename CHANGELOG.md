@@ -4,9 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
-## [0.2.5] - Unreleased
+## [0.2.5] - 2024-07-18
 ### Added
 - Support for themes from jsDelivr.
+
+### Fixed
+- Simplify the success screen.
 
 ## [0.2.4] - 2024-06-14
 ### Fixed
@@ -101,7 +104,7 @@ First version
 [#1]: https://github.com/lumeland/init/issues/1
 [#3]: https://github.com/lumeland/init/issues/3
 
-[0.2.5]: https://github.com/lumeland/init/compare/v0.2.4...HEAD
+[0.2.5]: https://github.com/lumeland/init/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/lumeland/init/compare/v0.2.3...v0.2.4
 [0.2.3]: https://github.com/lumeland/init/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/lumeland/init/compare/v0.2.1...v0.2.2
