@@ -2,7 +2,7 @@ import { colors, lessThan, parse, Select } from "../deps.ts";
 import { getLatestGitHubCommit, getLatestVersion } from "./utils.ts";
 import type { DenoConfig, Init } from "../init.ts";
 
-const minimum = "1.43.0";
+const minimum = "1.46.0";
 const current = Deno.version.deno;
 
 export default function () {

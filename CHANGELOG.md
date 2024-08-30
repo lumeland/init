@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.2.6] - 2024-08-30
+### Changed
+- Upgrade Deno minimum version to `1.46`.
+
 ## [0.2.5] - 2024-07-18
 ### Added
 - Support for themes from jsDelivr.
@@ -104,6 +108,7 @@ First version
 [#1]: https://github.com/lumeland/init/issues/1
 [#3]: https://github.com/lumeland/init/issues/3
 
+[0.2.6]: https://github.com/lumeland/init/compare/v0.2.5...v0.2.6
 [0.2.5]: https://github.com/lumeland/init/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/lumeland/init/compare/v0.2.3...v0.2.4
 [0.2.3]: https://github.com/lumeland/init/compare/v0.2.2...v0.2.3
