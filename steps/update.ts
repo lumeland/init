@@ -26,11 +26,15 @@ async function saveDenoConfig(
   let changed = false;
 
   if (deno.importMap) {
-    const importMap = { imports: deno.imports, scopes: deno.scopes };
-    const existingContent = await Deno.readTextFile(deno.importMap);
-    const newContent = JSON.stringify(importMap, null, 2) + "\n";
+    const mapText = await Deno.readTextFile(deno.importMap);
+    const map = JSON.parse(mapText);
+    Object.assign(map.imports, deno.imports);
+    if (deno.scopes) {
+      Object.assign(map.scopes, deno.scopes);
+    }
+    const newContent = JSON.stringify(map, null, 2) + "\n";
 
-    if (existingContent.trim() !== newContent.trim()) {
+    if (mapText.trim() !== newContent.trim()) {
       changed = true;
     }
 

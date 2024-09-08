@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.2.7] - 2024-09-08
+### Fixed
+- Keep existing imports after upgrading Lume with an external import map file.
+- Don't override lume tasks after upgrading.
+
 ## [0.2.6] - 2024-08-30
 ### Changed
 - Upgrade Deno minimum version to `1.46`.
@@ -108,6 +113,7 @@ First version
 [#1]: https://github.com/lumeland/init/issues/1
 [#3]: https://github.com/lumeland/init/issues/3
 
+[0.2.7]: https://github.com/lumeland/init/compare/v0.2.6...v0.2.7
 [0.2.6]: https://github.com/lumeland/init/compare/v0.2.5...v0.2.6
 [0.2.5]: https://github.com/lumeland/init/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/lumeland/init/compare/v0.2.3...v0.2.4

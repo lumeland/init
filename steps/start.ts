@@ -87,9 +87,10 @@ function configureLume(deno: DenoConfig, version: string) {
 
   // Configure lume tasks
   deno.tasks ??= {};
-  deno.tasks.lume = `echo "import 'lume/cli.ts'" | deno run -A -`;
-  deno.tasks.build = "deno task lume";
-  deno.tasks.serve = "deno task lume -s";
+  deno.tasks.lume ??= `echo "import 'lume/cli.ts'" | deno run -A -`;
+  deno.tasks.lume.replace(" --unstable ", " "); // Remove --unstable flag
+  deno.tasks.build ??= "deno task lume";
+  deno.tasks.serve ??= "deno task lume -s";
 
   // Configure the compiler options
   deno.compilerOptions ??= {};
