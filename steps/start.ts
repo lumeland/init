@@ -11,6 +11,9 @@ export default function () {
       return false;
     }
 
+    // Configure the _config file format
+    lume.file = config.javascript ? "_config.js" : "_config.ts";
+
     // Configure the import map
     const version = config.version
       ? config.version

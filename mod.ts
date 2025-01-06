@@ -1,6 +1,5 @@
 import { parseArgs } from "./deps.ts";
 import { Init, type InitConfig } from "./init.ts";
-import config from "./steps/config.ts";
 import cms from "./steps/cms.ts";
 import start from "./steps/start.ts";
 import themes from "./steps/themes.ts";
@@ -13,7 +12,6 @@ export default function init(initConfig: InitConfig) {
   const init = new Init(initConfig);
 
   init.use(start());
-  init.use(config());
   init.use(themes());
   init.use(plugins());
   init.use(git());
@@ -27,7 +25,7 @@ export default function init(initConfig: InitConfig) {
 export function run(args: string[] = Deno.args) {
   const parsed = parseArgs(args, {
     string: ["src", "theme", "plugins", "version"],
-    boolean: ["dev", "help", "no-cms", "cms"],
+    boolean: ["dev", "help", "no-cms", "cms", "javascript"],
     alias: { dev: "d", help: "h", version: "v" },
   });
 
@@ -44,6 +42,7 @@ export function run(args: string[] = Deno.args) {
     --theme           The theme to install
     --plugins         The plugins to install
     --cms             To install the CMS (use --no-cms to disable)
+    --javascript      Use JavaScript (_config.js) instead of TypeScript (_config.ts)
 `);
     Deno.exit();
   }
@@ -57,6 +56,7 @@ export function run(args: string[] = Deno.args) {
     dev: parsed.dev,
     cms: parsed.cms || (parsed["no-cms"] ? false : undefined),
     plugins: parsed.plugins ? parsed.plugins.split(",") : undefined,
+    javascript: parsed.javascript,
   });
   process.run();
 }

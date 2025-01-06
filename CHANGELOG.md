@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [0.3.0] - Unreleased
+### Changed
+- Remove JavaScript/TypeScript prompt. TypeScript is the default format. Use `--javascript` flag to use JavaScript.
+
 ### Fixed
 - Confirm to overwrite existing files.
 

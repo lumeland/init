@@ -16,4 +16,3 @@ jobs:
         run: deno lint
       - name: Incompatible Deno version
         run: deno run --allow-net mod.ts
-

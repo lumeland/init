@@ -51,10 +51,15 @@ function renderLumeConfig({ src, plugins }: LumeConfig): string {
   return code.join("\n");
 }
 
-async function writeFile(path: string, content: string | Uint8Array): Promise<void> {
+async function writeFile(
+  path: string,
+  content: string | Uint8Array,
+): Promise<void> {
   try {
     await Deno.stat(path);
-    const override = confirm(`File ${colors.gray(path)} already exists. Overwrite it?`);
+    const override = confirm(
+      `File ${colors.gray(path)} already exists. Overwrite it?`,
+    );
     if (!override) {
       return;
     }
@@ -67,7 +72,7 @@ async function writeFile(path: string, content: string | Uint8Array): Promise<vo
   if (typeof content === "string") {
     return await Deno.writeTextFile(path, content);
   }
-  
+
   await Deno.writeFile(path, content);
   console.log("File saved:", colors.gray(path));
 }

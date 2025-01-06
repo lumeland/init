@@ -73,6 +73,7 @@ export interface InitConfig {
   mode?: string;
   cms?: boolean;
   version?: string;
+  javascript?: boolean;
 }
 
 /** Class to manage the initialization */
