@@ -84,3 +84,10 @@ the Git repo):
 ```sh
 deno run -A upgrade.ts --dev
 ```
+
+Use `--version` combined with `--dev` to specify a branch. For example, to
+install the latest commit of the `v3-dev` branch:
+
+```sh
+deno run -A upgrade.ts --dev --version=v3-dev
+```

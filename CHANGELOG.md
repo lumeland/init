@@ -7,6 +7,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.3.0] - 2025-01-06
 ### Added
 - Support for `deno.jsonc`.
+- Allows to install any dev branch combining `--dev` and `--version`.
 
 ### Changed
 - Remove JavaScript/TypeScript prompt. TypeScript is the default format. Use `--javascript` flag to use JavaScript.
