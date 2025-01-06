@@ -3,34 +3,17 @@ import type { Init, LumeConfig } from "../init.ts";
 
 export default function () {
   return async ({ path, lume, deno, files }: Init) => {
-    await ensureDir(path);
-
     // Save Deno configuration file
     const content = JSON.stringify(deno, null, 2) + "\n";
-    const denoFile = join(path, "deno.json");
-
-    await Deno.writeTextFile(denoFile, content);
-    console.log("File saved:", colors.gray(denoFile));
+    await writeFile(join(path, "deno.json"), content);
 
     // Save Lume configuration file
     const code = renderLumeConfig(lume);
-    const lumeFile = join(path, lume.file);
-
-    await Deno.writeTextFile(lumeFile, code);
-    console.log("File saved:", colors.gray(lumeFile));
+    await writeFile(join(path, lume.file), code);
 
     // Save additional files
     for (const [file, content] of files) {
-      const filePath = join(path, file);
-      await ensureDir(dirname(filePath));
-
-      if (typeof content === "string") {
-        await Deno.writeTextFile(filePath, content);
-      } else {
-        await Deno.writeFile(filePath, content);
-      }
-
-      console.log("File saved:", colors.gray(filePath));
+      await writeFile(join(path, file), content);
     }
   };
 }
@@ -66,4 +49,25 @@ function renderLumeConfig({ src, plugins }: LumeConfig): string {
   code.push("");
 
   return code.join("\n");
+}
+
+async function writeFile(path: string, content: string | Uint8Array): Promise<void> {
+  try {
+    await Deno.stat(path);
+    const override = confirm(`File ${colors.gray(path)} already exists. Overwrite it?`);
+    if (!override) {
+      return;
+    }
+  } catch {
+    // File does not exist
+  }
+
+  await ensureDir(dirname(path));
+
+  if (typeof content === "string") {
+    return await Deno.writeTextFile(path, content);
+  }
+  
+  await Deno.writeFile(path, content);
+  console.log("File saved:", colors.gray(path));
 }
