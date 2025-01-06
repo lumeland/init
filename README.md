@@ -12,36 +12,47 @@ Script to initialize a Lume project.
 Init Lume in the current directory:
 
 ```sh
-deno run -Ar https://deno.land/x/lume_init/mod.ts
+deno run -A mod.ts
 ```
 
 Use the first argument to change the destination folder. For example, to init
 Lume in the directory `my-site`:
 
 ```sh
-deno run -Ar https://deno.land/x/lume_init/mod.ts my-site
+deno run -A mod.ts my-site
 ```
 
-Use `--src` option to configure the src folder of Lume. For example, to
-configure the `src` folder to `/src`:
+### Options
+
+`--src`: Configure the src folder of Lume. For example, to configure the `src`
+folder to `/src`:
 
 ```sh
-deno run -Ar https://deno.land/x/lume_init/mod.ts --src=/src
+deno run -A mod.ts --src=/src
 ```
 
-Use the `--theme` option to install directly a theme without asking. For
-example, to install `simple-blog` theme:
+`--theme`: Install directly a theme without asking. For example, to install
+`simple-blog` theme:
 
 ```sh
-deno run -Ar https://deno.land/x/lume_init/mod.ts --theme=simple-blog
+deno run -A mod.ts --theme=simple-blog
 ```
 
-Use the `--plugins` option to install directly some plugins without asking. For
-example, to install `postcss` and `nunjucks` plugins:
+`--plugins`: Install directly some plugins without asking. For example, to
+install `postcss` and `nunjucks` plugins:
 
 ```sh
-deno run -Ar https://deno.land/x/lume_init/mod.ts --plugins=postcss,nunjucks
+deno run -A mod.ts --plugins=postcss,nunjucks
 ```
+
+`--javascript`: Create `_config.js` instead of `_config.ts` file. For example:
+
+```sh
+deno run -A mod.ts --javascript
+```
+
+`--cms`: Creates the `_cms.ts` file directly without asking. Use `--no-cms` to
+don't create it.
 
 ## Run from lume.land
 
@@ -53,4 +64,23 @@ deno run -A https://lume.land/init.ts
 
 # is equivalent to:
 deno run -Ar https://deno.land/x/lume_init/mod.ts
+```
+
+## Upgrade
+
+The `upgrade.ts` script upgrades an existing Lume site to the latest version.
+
+### Options
+
+`--version`: To upgrade to a specific Lume version, instead of the latest:
+
+```sh
+deno run -A upgrade.ts --version=2.1.0
+```
+
+`--dev`: To upgrade to the latest development version (the most recent commit of
+the Git repo):
+
+```sh
+deno run -A upgrade.ts --dev
 ```

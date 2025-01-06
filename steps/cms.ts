@@ -36,7 +36,7 @@ export default function () {
       }
     }
 
-    const file = lume.file.endsWith(".ts") ? "_cms.ts" : "_cms.js";
+    const file = config.javascript ? "_cms.js" : "_cms.ts";
     const content = [
       'import lumeCMS from "lume/cms/mod.ts";',
       "",

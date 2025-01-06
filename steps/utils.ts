@@ -28,9 +28,12 @@ export async function getLatestGitHubTag(name: string): Promise<string> {
   return tags[0].name;
 }
 
-export async function getLatestGitHubCommit(name: string): Promise<string> {
+export async function getLatestGitHubCommit(
+  name: string,
+  branch = "main",
+): Promise<string> {
   const response = await fetch(
-    `https://api.github.com/repos/${name}/commits/main`,
+    `https://api.github.com/repos/${name}/commits/${branch}`,
   );
   const commits = await response.json();
   return commits.sha;

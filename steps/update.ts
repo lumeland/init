@@ -2,10 +2,9 @@ import { colors, join } from "../deps.ts";
 import type { DenoConfig, Init } from "../init.ts";
 
 export default function () {
-  return async ({ path, deno, lume }: Init) => {
+  return async ({ path, deno, lume, denoFile }: Init) => {
     // Save Deno configuration file
-    const denoFile = join(path, "deno.json");
-    const changed = await saveDenoConfig(deno, denoFile);
+    const changed = await saveDenoConfig(deno, join(path, denoFile));
 
     if (changed) {
       console.log("Update successful!");

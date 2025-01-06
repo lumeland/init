@@ -58,10 +58,10 @@ export function updateLume() {
       return;
     }
 
-    const version = config.version
+    const version = config.version && !dev
       ? config.version
       : dev
-      ? await getLatestGitHubCommit("lumeland/lume")
+      ? await getLatestGitHubCommit("lumeland/lume", config.version || "main")
       : await getLatestVersion("lume");
 
     lume.version = version;

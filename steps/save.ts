@@ -2,10 +2,10 @@ import { colors, dirname, ensureDir, join } from "../deps.ts";
 import type { Init, LumeConfig } from "../init.ts";
 
 export default function () {
-  return async ({ path, lume, deno, files }: Init) => {
+  return async ({ path, lume, deno, files, denoFile }: Init) => {
     // Save Deno configuration file
     const content = JSON.stringify(deno, null, 2) + "\n";
-    await writeFile(join(path, "deno.json"), content);
+    await writeFile(join(path, denoFile), content);
 
     // Save Lume configuration file
     const code = renderLumeConfig(lume);

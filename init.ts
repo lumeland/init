@@ -79,6 +79,7 @@ export interface InitConfig {
 /** Class to manage the initialization */
 export class Init {
   config: InitConfig;
+  denoFile = "deno.json";
   path: string;
   dev: boolean;
   steps = new Map<number, Step[]>();

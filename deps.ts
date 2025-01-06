@@ -10,3 +10,4 @@ export * as colors from "https://deno.land/std@0.224.0/fmt/colors.ts";
 export { parseArgs } from "https://deno.land/std@0.224.0/cli/parse_args.ts";
 export { lessThan } from "https://deno.land/std@0.224.0/semver/less_than.ts";
 export { parse } from "https://deno.land/std@0.224.0/semver/parse.ts";
+export { parse as parseJsonc } from "https://deno.land/std@0.224.0/jsonc/parse.ts";
