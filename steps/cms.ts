@@ -53,7 +53,7 @@ export default function () {
 
 export function updateCms() {
   return async ({ deno, dev }: Init) => {
-    if (!deno.tasks?.cms) {
+    if (!deno.tasks?.cms && !deno.imports?.["lume/cms/"]) {
       return;
     }
 

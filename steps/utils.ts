@@ -1,11 +1,20 @@
 /** Return the latest stable version from the deno.land/x repository */
 export async function getLatestVersion(
   name: string,
+  prefix?: string,
 ): Promise<string> {
   const response = await fetch(
     `https://cdn.deno.land/${name}/meta/versions.json`,
   );
   const versions = await response.json();
+
+  if (prefix) {
+    for (const version of versions.versions) {
+      if (version.startsWith(prefix)) {
+        return version;
+      }
+    }
+  }
   return versions.latest;
 }
 

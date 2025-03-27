@@ -19,7 +19,7 @@ export default function () {
       ? config.version
       : dev
       ? await getLatestGitHubCommit("lumeland/cms")
-      : await getLatestVersion("lume");
+      : await getLatestVersion("lume", "v2.");
 
     console.log();
     console.log(`Welcome to Lume ${colors.brightGreen(version)}!`);
@@ -62,7 +62,7 @@ export function updateLume() {
       ? config.version
       : dev
       ? await getLatestGitHubCommit("lumeland/lume", config.version || "main")
-      : await getLatestVersion("lume");
+      : await getLatestVersion("lume", "v2.");
 
     lume.version = version;
     configureLume(deno, version);
