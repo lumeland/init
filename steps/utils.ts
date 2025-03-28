@@ -34,6 +34,11 @@ export async function getLatestGitHubTag(name: string): Promise<string> {
     `https://api.github.com/repos/${name}/tags`,
   );
   const tags = await response.json();
+
+  if (!Array.isArray(tags) || tags.length === 0) {
+    throw new Error(tags.message || `No tags found for ${name}`);
+  }
+
   return tags[0].name;
 }
 
