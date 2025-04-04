@@ -2,7 +2,7 @@ import { colors, lessThan, parse, Select } from "../deps.ts";
 import { getLatestGitHubCommit, getLatestVersion } from "./utils.ts";
 import type { DenoConfig, Init } from "../init.ts";
 
-const minimum = "1.46.0";
+const minimum = "2.1.0";
 const current = Deno.version.deno;
 
 export default function () {
@@ -19,14 +19,16 @@ export default function () {
       ? config.version
       : dev
       ? await getLatestGitHubCommit("lumeland/cms")
-      : await getLatestVersion("lume", "v2.");
+      : await getLatestVersion("lume", "v3.");
+
+    const ssxVersion = await getLatestVersion("ssx");
 
     console.log();
     console.log(`Welcome to Lume ${colors.brightGreen(version)}!`);
     console.log();
 
     lume.version = version;
-    configureLume(deno, version);
+    configureLume(deno, version, ssxVersion);
 
     if (config.theme || config.plugins) {
       return;
@@ -62,7 +64,7 @@ export function updateLume() {
       ? config.version
       : dev
       ? await getLatestGitHubCommit("lumeland/lume", config.version || "main")
-      : await getLatestVersion("lume", "v2.");
+      : await getLatestVersion("lume", "v3.");
 
     lume.version = version;
     configureLume(deno, version);
@@ -81,12 +83,15 @@ function checkDenoVersion(): boolean {
   return true;
 }
 
-function configureLume(deno: DenoConfig, version: string) {
+function configureLume(deno: DenoConfig, version: string, ssxVersion?: string) {
   deno.imports ??= {};
 
   deno.imports["lume/"] = version.length === 40 // GitHub commit hash
     ? `https://cdn.jsdelivr.net/gh/lumeland/lume@${version}/`
     : `https://deno.land/x/lume@${version}/`;
+
+  deno.imports["lume/jsx-runtime"] =
+    `https://deno.land/x/ssx@${ssxVersion}/jsx-runtime.ts`;
 
   // Configure lume tasks
   deno.tasks ??= {};
@@ -100,5 +105,13 @@ function configureLume(deno: DenoConfig, version: string) {
   deno.compilerOptions.types ??= [];
   if (!deno.compilerOptions.types.includes("lume/types.ts")) {
     deno.compilerOptions.types.push("lume/types.ts");
+  }
+  deno.compilerOptions.jsx ??= "react-jsx";
+  deno.compilerOptions.jsxImportSource ??= "lume";
+
+  // Configure the unstable flag
+  deno.unstable ??= [];
+  if (!deno.unstable.includes("temporal")) {
+    deno.unstable.push("temporal");
   }
 }

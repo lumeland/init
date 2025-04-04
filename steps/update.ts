@@ -13,7 +13,7 @@ export default function () {
         colors.green(lume.version),
       );
     } else {
-      console.log("You're using the latest version of Lume 2");
+      console.log("No need to update the Deno configuration file.");
     }
   };
 }
