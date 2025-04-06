@@ -10,6 +10,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 - Show a better message on upgrading lumecms.
+- Replaced GitHub API with JsDelivr to avoid API rate limit exceeded errors.
 
 ## [0.3.1] - 2025-03-27
 ### Fixed

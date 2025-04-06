@@ -18,7 +18,7 @@ export async function getLatestVersion(
   return versions.latest;
 }
 
-/** Return the latest stable version from the deno.land/x repository */
+/** Return the latest stable version from a Github repository in jsDelivr */
 export async function getLatestJsDelivrVersion(
   name: string,
 ): Promise<string> {
@@ -27,19 +27,6 @@ export async function getLatestJsDelivrVersion(
   );
   const versions = await response.json();
   return versions.versions[0];
-}
-
-export async function getLatestGitHubTag(name: string): Promise<string> {
-  const response = await fetch(
-    `https://api.github.com/repos/${name}/tags`,
-  );
-  const tags = await response.json();
-
-  if (!Array.isArray(tags) || tags.length === 0) {
-    throw new Error(tags.message || `No tags found for ${name}`);
-  }
-
-  return tags[0].name;
 }
 
 export async function getLatestGitHubCommit(

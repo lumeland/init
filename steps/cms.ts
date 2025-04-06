@@ -1,5 +1,5 @@
 import { Select } from "../deps.ts";
-import { getLatestGitHubCommit, getLatestGitHubTag } from "./utils.ts";
+import { getLatestGitHubCommit, getLatestJsDelivrVersion } from "./utils.ts";
 import type { DenoConfig, Init } from "../init.ts";
 
 export default function () {
@@ -67,7 +67,7 @@ async function configureCms(deno: DenoConfig, dev: boolean) {
 
   const version = dev
     ? await getLatestGitHubCommit("lumeland/cms")
-    : await getLatestGitHubTag("lumeland/cms");
+    : await getLatestJsDelivrVersion("lumeland/cms");
   deno.imports ??= {};
   deno.imports["lume/cms/"] =
     `https://cdn.jsdelivr.net/gh/lumeland/cms@${version}/`;
