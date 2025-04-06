@@ -3,8 +3,9 @@ import type { DenoConfig, Init } from "../init.ts";
 
 export default function () {
   return async ({ deno, lume, config }: Init) => {
+    const available = await getAvailablePlugins(deno);
+
     if (config.plugins) {
-      const available = await getAvailablePlugins(deno);
       const invalid = config.plugins.filter((name) =>
         !available.includes(name)
       );
@@ -14,10 +15,9 @@ export default function () {
           `The following plugins are not available: ${invalid.join(", ")}`,
         );
       }
-      initPlugins(config.plugins);
-      config.plugins.forEach((name) => {
-        lume.plugins.push({ name });
-      });
+
+      initPlugins(config.plugins, available);
+      config.plugins.forEach((name) => lume.plugins.push({ name }));
       return;
     }
 
@@ -25,14 +25,17 @@ export default function () {
       return;
     }
 
+    const options = [...available];
+    options.sort((a, b) => a.localeCompare(b));
+
     const plugins = await Checkbox.prompt({
       message:
         "Select the plugins to install (More info at https://lume.land/plugins/)",
-      options: await getAvailablePlugins(deno),
+      options,
       hint: "Use Arrow keys and Space to select. Enter to submit",
     });
 
-    initPlugins(plugins);
+    initPlugins(plugins, options);
 
     plugins.forEach((name) => {
       lume.plugins.push({ name });
@@ -40,7 +43,7 @@ export default function () {
   };
 }
 
-async function getAvailablePlugins(deno: DenoConfig) {
+async function getAvailablePlugins(deno: DenoConfig): Promise<string[]> {
   const base = deno.imports?.["lume/"];
 
   if (!base) {
@@ -53,24 +56,14 @@ async function getAvailablePlugins(deno: DenoConfig) {
   return pluginNames;
 }
 
-function initPlugins(plugins: string[]) {
-  // Ensure that picture is loaded before transform_images
-  fixPluginOrder(plugins, "picture", "transform_images");
-}
-
-function fixPluginOrder(plugins: string[], plugin1: string, plugin2: string) {
-  if (plugins.includes(plugin1)) {
-    const pos1 = plugins.indexOf(plugin1);
-    const pos2 = plugins.indexOf(plugin2);
-
-    if (pos2 === -1) {
-      plugins.splice(pos1 + 1, 0, plugin2);
-      return;
-    }
-
-    if (pos1 > pos2) {
-      plugins[pos2] = plugin1;
-      plugins[pos1] = plugin2;
-    }
+function initPlugins(plugins: string[], available: string[]) {
+  // Add transform_images if picture is selected
+  if (plugins.includes("picture") && !plugins.includes("transform_images")) {
+    plugins.push("transform_images");
   }
+
+  // Sort plugins by their order in available
+  // This is important for plugins that depend on others
+  // like transform_images and picture
+  plugins.sort((a, b) => available.indexOf(a) - available.indexOf(b));
 }
