@@ -60,6 +60,7 @@ export function updateLume() {
       return;
     }
 
+    const ssxVersion = await getLatestVersion("ssx");
     const version = config.version && !dev
       ? config.version
       : dev
@@ -67,7 +68,7 @@ export function updateLume() {
       : await getLatestVersion("lume", "v3.");
 
     lume.version = version;
-    configureLume(deno, version);
+    configureLume(deno, version, ssxVersion);
   };
 }
 
@@ -83,7 +84,7 @@ function checkDenoVersion(): boolean {
   return true;
 }
 
-function configureLume(deno: DenoConfig, version: string, ssxVersion?: string) {
+function configureLume(deno: DenoConfig, version: string, ssxVersion: string) {
   deno.imports ??= {};
 
   deno.imports["lume/"] = version.length === 40 // GitHub commit hash
