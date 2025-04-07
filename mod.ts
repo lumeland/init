@@ -1,3 +1,5 @@
+import { run as runv2 } from "https://deno.land/x/lume_init@v0.3.1/mod.ts";
+
 import { parseArgs } from "./deps.ts";
 import { Init, type InitConfig } from "./init.ts";
 import cms from "./steps/cms.ts";
@@ -62,5 +64,9 @@ export function run(args: string[] = Deno.args) {
 }
 
 if (import.meta.main) {
-  run();
+  if (!Deno.args.includes("--dev") && !Deno.args.includes("-d")) {
+    runv2();
+  } else {
+    run();
+  }
 }

@@ -18,7 +18,7 @@ export default function () {
     const version = config.version
       ? config.version
       : dev
-      ? await getLatestGitHubCommit("lumeland/cms")
+      ? await getLatestGitHubCommit("lumeland/lume")
       : await getLatestVersion("lume", "v3.");
 
     const ssxVersion = await getLatestVersion("ssx");

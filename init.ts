@@ -38,6 +38,7 @@ export interface Theme {
   name: string;
   description: string;
   tags: string[];
+  lume_version: 2 | 3;
   author: {
     name: string;
     url: string;

@@ -35,7 +35,7 @@ export default function () {
       hint: "Use Arrow keys and Space to select. Enter to submit",
     });
 
-    initPlugins(plugins, options);
+    initPlugins(plugins, available);
 
     plugins.forEach((name) => {
       lume.plugins.push({ name });

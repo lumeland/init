@@ -3,7 +3,10 @@ import { loadFile, resolveOrigin } from "./utils.ts";
 import type { DenoConfig, Init, LumeConfig, Theme } from "../init.ts";
 
 const themes: Theme[] =
-  await (await fetch("https://lumeland.github.io/themes/themes.json")).json();
+  (await (await fetch("https://lumeland.github.io/themes/themes.json")).json())
+    .filter(
+      (theme: Theme) => theme.lume_version === 3,
+    );
 
 export default function () {
   return async ({ lume, deno, files, config }: Init) => {
