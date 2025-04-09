@@ -4,9 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
-## [0.4.0] - Unreleased
+## [0.3.2] - 2025-04-09
 ### Changed
-- Install Lume 3
+- Install & upgrade Lume 3 on `--dev`
 
 ### Fixed
 - Show a better message on upgrading lumecms.
@@ -137,7 +137,7 @@ First version
 [#1]: https://github.com/lumeland/init/issues/1
 [#3]: https://github.com/lumeland/init/issues/3
 
-[0.3.2]: https://github.com/lumeland/init/compare/v0.3.1...HEAD
+[0.3.2]: https://github.com/lumeland/init/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/lumeland/init/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/lumeland/init/compare/v0.2.7...v0.3.0
 [0.2.7]: https://github.com/lumeland/init/compare/v0.2.6...v0.2.7
