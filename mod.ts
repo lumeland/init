@@ -31,6 +31,10 @@ export function run(args: string[] = Deno.args) {
     alias: { dev: "d", help: "h", version: "v" },
   });
 
+  if (!parsed.dev) {
+    return runv2(args);
+  }
+
   if (parsed.help) {
     console.log(`
   Usage:
@@ -64,9 +68,5 @@ export function run(args: string[] = Deno.args) {
 }
 
 if (import.meta.main) {
-  if (!Deno.args.includes("--dev") && !Deno.args.includes("-d")) {
-    runv2();
-  } else {
-    run();
-  }
+  run();
 }
