@@ -5,7 +5,7 @@ export default function () {
   return async ({ path, lume, deno, files, denoFile }: Init) => {
     // Save Deno configuration file
     const content = JSON.stringify(deno, null, 2) + "\n";
-    await writeFile(join(path, denoFile), content);
+    await writeFile(join(path, denoFile), content, false);
 
     // Save Lume configuration file
     const code = renderLumeConfig(lume);
@@ -54,17 +54,20 @@ function renderLumeConfig({ src, plugins }: LumeConfig): string {
 async function writeFile(
   path: string,
   content: string | Uint8Array,
+  askOverride = true,
 ): Promise<void> {
-  try {
-    await Deno.stat(path);
-    const override = confirm(
-      `File ${colors.gray(path)} already exists. Overwrite it?`,
-    );
-    if (!override) {
-      return;
+  if (askOverride) {
+    try {
+      await Deno.stat(path);
+      const override = confirm(
+        `File ${colors.gray(path)} already exists. Overwrite it?`,
+      );
+      if (!override) {
+        return;
+      }
+    } catch {
+      // File does not exist
     }
-  } catch {
-    // File does not exist
   }
 
   await ensureDir(dirname(path));

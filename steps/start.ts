@@ -1,18 +1,35 @@
 import { colors, lessThan, parse, Select } from "../deps.ts";
-import { getLatestGitHubCommit, getLatestVersion } from "./utils.ts";
+import { getLatestGitHubCommit, getLatestVersion, loadJSON } from "./utils.ts";
 import type { DenoConfig, Init } from "../init.ts";
 
 const minimum = "2.1.0";
 const current = Deno.version.deno;
 
 export default function () {
-  return async ({ deno, dev, lume, config }: Init) => {
+  return async (init: Init) => {
+    const { path, deno, dev, lume, config } = init;
+
     if (!checkDenoVersion()) {
       return false;
     }
 
     // Configure the _config file format
     lume.file = config.javascript ? "_config.js" : "_config.ts";
+
+    // Check if the deno config file already exists and load it
+    try {
+      const config = await loadJSON<DenoConfig>(
+        path,
+        "deno.json",
+        "deno.jsonc",
+      );
+      if (config) {
+        Object.assign(deno, config[1]);
+        init.denoFile = config[0];
+      }
+    } catch {
+      // Ignore the error
+    }
 
     // Configure the import map
     const version = config.version
@@ -114,5 +131,19 @@ function configureLume(deno: DenoConfig, version: string, ssxVersion: string) {
   deno.unstable ??= [];
   if (!deno.unstable.includes("temporal")) {
     deno.unstable.push("temporal");
+  }
+
+  // Configure lint
+  deno.lint ??= {};
+  deno.lint.plugins ??= [];
+  const lintUrl = deno.imports["lume/"] + "lint.ts";
+  const index = deno.lint.plugins.findIndex((url) =>
+    url === "lume/lint.ts" || url.includes("/lume@")
+  );
+
+  if (index !== -1) {
+    deno.lint.plugins[index] = lintUrl;
+  } else {
+    deno.lint.plugins.push(lintUrl);
   }
 }

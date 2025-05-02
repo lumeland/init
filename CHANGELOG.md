@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.3.4] - 2025-05-02
+### Added
+- Lint plugin for Lume.
+
+### Changed
+- Append changes to deno.json if the file already exists [#4].
+
 ## [0.3.3] - 2025-04-17
 ### Fixed
 - Install & upgrade Lume 2
@@ -140,7 +147,9 @@ First version
 
 [#1]: https://github.com/lumeland/init/issues/1
 [#3]: https://github.com/lumeland/init/issues/3
+[#4]: https://github.com/lumeland/init/issues/4
 
+[0.3.4]: https://github.com/lumeland/init/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/lumeland/init/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/lumeland/init/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/lumeland/init/compare/v0.3.0...v0.3.1

@@ -6,6 +6,9 @@ export interface DenoConfig {
   compilerOptions?: CompilerOptions;
   unstable?: string[];
   [key: string]: unknown;
+  lint?: {
+    plugins?: string[];
+  };
 }
 
 export interface CompilerOptions {
