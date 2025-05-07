@@ -1,4 +1,3 @@
-import { run as runv2 } from "https://deno.land/x/lume_init@v0.3.1/upgrade.ts";
 import { parseArgs } from "./deps.ts";
 import { Init, type InitConfig } from "./init.ts";
 import load from "./steps/load.ts";
@@ -25,10 +24,6 @@ export function run(args: string[] = Deno.args) {
     string: ["version"],
     alias: { dev: "d", version: "v", help: "h" },
   });
-
-  if (!parsed.dev) {
-    return runv2(args);
-  }
 
   if (parsed.help) {
     console.log(`

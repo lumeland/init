@@ -1,5 +1,3 @@
-import { run as runv2 } from "https://deno.land/x/lume_init@v0.3.1/mod.ts";
-
 import { parseArgs } from "./deps.ts";
 import { Init, type InitConfig } from "./init.ts";
 import cms from "./steps/cms.ts";
@@ -30,10 +28,6 @@ export function run(args: string[] = Deno.args) {
     boolean: ["dev", "help", "no-cms", "cms", "javascript"],
     alias: { dev: "d", help: "h", version: "v" },
   });
-
-  if (!parsed.dev) {
-    return runv2(args);
-  }
 
   if (parsed.help) {
     console.log(`
