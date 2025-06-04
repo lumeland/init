@@ -132,6 +132,9 @@ function configureLume(deno: DenoConfig, version: string, ssxVersion: string) {
   if (!deno.unstable.includes("temporal")) {
     deno.unstable.push("temporal");
   }
+  if (!deno.unstable.includes("fmt-component")) {
+    deno.unstable.push("fmt-component");
+  }
 
   // Configure lint
   deno.lint ??= {};
