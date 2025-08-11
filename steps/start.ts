@@ -1,5 +1,13 @@
-import { colors, lessThan, parse, Select } from "../deps.ts";
-import { getLatestGitHubCommit, getLatestVersion, loadJSON } from "./utils.ts";
+import {
+  colors,
+  DenoLand,
+  JsDelivr,
+  lessThan,
+  parse,
+  Select,
+} from "../deps.ts";
+import { getLatestGitHubCommit, loadJSON } from "./utils.ts";
+import type { Package } from "../deps.ts";
 import type { DenoConfig, Init } from "../init.ts";
 
 const minimum = "2.1.0";
@@ -32,20 +40,14 @@ export default function () {
     }
 
     // Configure the import map
-    const version = config.version
-      ? config.version
-      : dev
-      ? await getLatestGitHubCommit("lumeland/lume")
-      : await getLatestVersion("lume", "v3.");
-
-    const ssxVersion = await getLatestVersion("ssx");
+    const lumePkg = await getLumePackage(dev, config.version);
 
     console.log();
-    console.log(`Welcome to Lume ${colors.brightGreen(version)}!`);
+    console.log(`Welcome to Lume ${colors.brightGreen(lumePkg.version)}!`);
     console.log();
 
-    lume.version = version;
-    configureLume(deno, version, ssxVersion);
+    lume.version = lumePkg.version;
+    configureLume(deno, lumePkg, await DenoLand.create("ssx"));
 
     if (config.theme || config.plugins) {
       return;
@@ -77,15 +79,9 @@ export function updateLume() {
       return;
     }
 
-    const ssxVersion = await getLatestVersion("ssx");
-    const version = config.version && !dev
-      ? config.version
-      : dev
-      ? await getLatestGitHubCommit("lumeland/lume", config.version || "main")
-      : await getLatestVersion("lume", "v3.");
-
-    lume.version = version;
-    configureLume(deno, version, ssxVersion);
+    const lumePkg = await getLumePackage(dev, config.version);
+    lume.version = lumePkg.version;
+    configureLume(deno, lumePkg, await DenoLand.create("ssx"));
   };
 }
 
@@ -101,15 +97,11 @@ function checkDenoVersion(): boolean {
   return true;
 }
 
-function configureLume(deno: DenoConfig, version: string, ssxVersion: string) {
+function configureLume(deno: DenoConfig, lume: Package, ssx: Package) {
   deno.imports ??= {};
 
-  deno.imports["lume/"] = version.length === 40 // GitHub commit hash
-    ? `https://cdn.jsdelivr.net/gh/lumeland/lume@${version}/`
-    : `https://deno.land/x/lume@${version}/`;
-
-  deno.imports["lume/jsx-runtime"] =
-    `https://deno.land/x/ssx@${ssxVersion}/jsx-runtime.ts`;
+  deno.imports["lume/"] = lume.at(undefined, "/");
+  deno.imports["lume/jsx-runtime"] = ssx.at(undefined, "/jsx-runtime.ts");
 
   // Configure lume tasks
   deno.tasks ??= {};
@@ -139,7 +131,7 @@ function configureLume(deno: DenoConfig, version: string, ssxVersion: string) {
   // Configure lint
   deno.lint ??= {};
   deno.lint.plugins ??= [];
-  const lintUrl = deno.imports["lume/"] + "lint.ts";
+  const lintUrl = lume.at(undefined, "/lint.ts");
   const index = deno.lint.plugins.findIndex((url) =>
     url === "lume/lint.ts" || url.includes("/lume@")
   );
@@ -149,4 +141,26 @@ function configureLume(deno: DenoConfig, version: string, ssxVersion: string) {
   } else {
     deno.lint.plugins.push(lintUrl);
   }
+}
+
+async function getLumePackage(
+  dev: boolean,
+  version?: string,
+): Promise<Package> {
+  let lumePkg: Package;
+
+  if (dev) {
+    lumePkg = await JsDelivr.create("lumeland/lume");
+    lumePkg.version = await getLatestGitHubCommit(
+      "lumeland/lume",
+      version || "main",
+    );
+    return lumePkg;
+  }
+  lumePkg = await DenoLand.create("lume");
+
+  if (version) {
+    lumePkg.version = version;
+  }
+  return lumePkg;
 }

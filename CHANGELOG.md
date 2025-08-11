@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.2] - 2025-08-11
+### Changed
+- Use Nudd to resolve dependencies.
+
+### Fixed
+- Don't use the beta version of LumeCMS.
+
 ## [0.4.1] - 2025-06-04
 ### Added
 - `fmt-component` unstable flag, to format Vento files by default.
@@ -157,6 +164,7 @@ First version
 [#3]: https://github.com/lumeland/init/issues/3
 [#4]: https://github.com/lumeland/init/issues/4
 
+[0.4.2]: https://github.com/lumeland/init/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/lumeland/init/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/lumeland/init/compare/v0.3.4...v0.4.0
 [0.3.4]: https://github.com/lumeland/init/compare/v0.3.3...v0.3.4

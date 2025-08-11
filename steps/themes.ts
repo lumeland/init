@@ -1,5 +1,5 @@
-import { join, Select } from "../deps.ts";
-import { loadFile, resolveOrigin } from "./utils.ts";
+import { DenoLand, join, JsDelivr, Package, Select } from "../deps.ts";
+import { loadFile } from "./utils.ts";
 import type { DenoConfig, Init, LumeConfig, Theme } from "../init.ts";
 
 const themes: Theme[] =
@@ -78,7 +78,7 @@ async function setupTheme(
   deno: DenoConfig,
   files: Map<string, string | Uint8Array>,
 ) {
-  const origin = await resolveOrigin(theme.module.origin);
+  const themePkg = await resolveOrigin(theme.module.origin);
   const name = theme.module.name;
 
   // Configure Lume
@@ -91,7 +91,7 @@ async function setupTheme(
 
   // Configure the import map
   deno.imports ??= {};
-  deno.imports[`${name}/`] = `${origin}/`;
+  deno.imports[`${name}/`] = themePkg.at(undefined, "/");
 
   // Configure the unstable APIs
   if (theme.module.unstable?.length) {
@@ -112,7 +112,7 @@ async function setupTheme(
   if (theme.module.imports) {
     for (const [key, value] of Object.entries(theme.module.imports)) {
       if (value.startsWith(".")) {
-        deno.imports[key] = `${origin}${value.substring(1)}`;
+        deno.imports[key] = themePkg.at(undefined, value.substring(1));
         continue;
       }
       deno.imports[key] = value;
@@ -140,7 +140,26 @@ async function setupTheme(
   for (const file of theme.module.src ?? []) {
     files.set(
       lume.src + file,
-      await loadFile(origin + join("/", srcdir, file)),
+      await loadFile(themePkg.at(undefined, join("/", srcdir, file))),
     );
   }
+}
+
+async function resolveOrigin(url: string): Promise<Package> {
+  const denoland = url.match(/^https:\/\/deno.land\/x\/([^\/]+)$/);
+
+  if (denoland) {
+    const [, name] = denoland;
+    return await DenoLand.create(name);
+  }
+
+  const jsdelivr = url.match(
+    /^https:\/\/cdn\.jsdelivr\.net\/gh\/([^\/]+\/[^\/]+)$/,
+  );
+  if (jsdelivr) {
+    const [, name] = jsdelivr;
+    return await JsDelivr.create(name);
+  }
+
+  throw new Error(`Could not resolve origin for ${url}`);
 }

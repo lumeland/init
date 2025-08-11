@@ -1,5 +1,5 @@
-import { Select } from "../deps.ts";
-import { getLatestGitHubCommit, getLatestJsDelivrVersion } from "./utils.ts";
+import { JsDelivr, Select } from "../deps.ts";
+import { getLatestGitHubCommit } from "./utils.ts";
 import type { DenoConfig, Init } from "../init.ts";
 
 export default function () {
@@ -64,11 +64,12 @@ export function updateCms() {
 async function configureCms(deno: DenoConfig, dev: boolean) {
   deno.tasks ??= {};
   deno.tasks.cms = `deno task lume cms`;
+  const pkg = await JsDelivr.create("lumeland/cms");
 
-  const version = dev
-    ? await getLatestGitHubCommit("lumeland/cms")
-    : await getLatestJsDelivrVersion("lumeland/cms");
+  if (dev) {
+    pkg.version = await getLatestGitHubCommit("lumeland/cms");
+  }
+
   deno.imports ??= {};
-  deno.imports["lume/cms/"] =
-    `https://cdn.jsdelivr.net/gh/lumeland/cms@${version}/`;
+  deno.imports["lume/cms/"] = pkg.at(undefined, "/");
 }
