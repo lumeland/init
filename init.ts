@@ -8,6 +8,9 @@ export interface DenoConfig {
   [key: string]: unknown;
   lint?: {
     plugins?: string[];
+    rules?: {
+      exclude?: string[];
+    };
   };
 }
 

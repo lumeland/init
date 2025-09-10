@@ -128,7 +128,7 @@ function configureLume(deno: DenoConfig, lume: Package, ssx: Package) {
     deno.unstable.push("fmt-component");
   }
 
-  // Configure lint
+  // Configure lint plugins
   deno.lint ??= {};
   deno.lint.plugins ??= [];
   const lintUrl = lume.at(undefined, "/lint.ts");
@@ -140,6 +140,13 @@ function configureLume(deno: DenoConfig, lume: Package, ssx: Package) {
     deno.lint.plugins[index] = lintUrl;
   } else {
     deno.lint.plugins.push(lintUrl);
+  }
+
+  // Configure lint rules
+  deno.lint.rules ??= {};
+  deno.lint.rules.exclude ??= [];
+  if (!deno.lint.rules.exclude.includes("no-import-prefix")) {
+    deno.lint.rules.exclude.push("no-import-prefix");
   }
 }
 
