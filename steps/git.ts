@@ -5,6 +5,7 @@ export default function () {
     const paths = [
       "_site",
       "_cache",
+      ".env",
     ];
 
     if (Deno.build.os === "darwin") {
