@@ -1,7 +1,7 @@
 import { parseArgs } from "./deps.ts";
 import { Init, type InitConfig } from "./init.ts";
 import cms from "./steps/cms.ts";
-import start from "./steps/start.ts";
+import lume from "./steps/lume.ts";
 import themes from "./steps/themes.ts";
 import save from "./steps/save.ts";
 import plugins from "./steps/plugins.ts";
@@ -11,7 +11,7 @@ import git from "./steps/git.ts";
 export default function init(initConfig: InitConfig) {
   const init = new Init(initConfig);
 
-  init.use(start());
+  init.use(lume());
   init.use(themes());
   init.use(plugins());
   init.use(git());

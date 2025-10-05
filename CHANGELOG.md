@@ -7,6 +7,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.4.4] - Unreleased
 ### Added
 - `.env` path to `.gitignore`.
+- Change `lume` task to use bare import and full descriptors (`command` and `description`).
+- Added Deno permissions to `deno.json` file.
 
 ## [0.4.3] - 2025-09-10
 ### Changed

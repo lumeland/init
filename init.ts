@@ -2,7 +2,8 @@
 export interface DenoConfig {
   importMap?: string;
   imports?: Record<string, string>;
-  tasks?: Record<string, string>;
+  tasks?: Record<string, string | Task>;
+  permissions?: Record<string, DenoPermissions>;
   compilerOptions?: CompilerOptions;
   unstable?: string[];
   [key: string]: unknown;
@@ -14,6 +15,23 @@ export interface DenoConfig {
   };
 }
 
+export interface DenoPermissions {
+  all?: boolean;
+  read?: DenoPermissionValue;
+  write?: DenoPermissionValue;
+  import?: DenoPermissionValue;
+  env?: DenoPermissionValue;
+  net?: DenoPermissionValue;
+  run?: DenoPermissionValue;
+  ffi?: DenoPermissionValue;
+  sys?: DenoPermissionValue;
+}
+
+export type DenoPermissionValue = string[] | boolean | {
+  allow?: string[] | boolean;
+  deny?: string[] | boolean;
+};
+
 export interface CompilerOptions {
   jsx?: "jsx" | "react-jsx" | "precompile";
   jsxImportSource?: string;
@@ -21,6 +39,11 @@ export interface CompilerOptions {
   jsxFactory?: string;
   jsxFragmentFactory?: string;
   types?: string[];
+}
+
+export interface Task {
+  description?: string;
+  command: string;
 }
 
 /** Lume plugin options */

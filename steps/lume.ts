@@ -8,9 +8,9 @@ import {
 } from "../deps.ts";
 import { getLatestGitHubCommit, loadJSON } from "./utils.ts";
 import type { Package } from "../deps.ts";
-import type { DenoConfig, Init } from "../init.ts";
+import type { DenoConfig, Init, Task } from "../init.ts";
 
-const minimum = "2.1.0";
+const minimum = "2.4.0";
 const current = Deno.version.deno;
 
 export default function () {
@@ -103,12 +103,42 @@ function configureLume(deno: DenoConfig, lume: Package, ssx: Package) {
   deno.imports["lume/"] = lume.at(undefined, "/");
   deno.imports["lume/jsx-runtime"] = ssx.at(undefined, "/jsx-runtime.ts");
 
+  // Configure permissions
+  const supportedPermissions = !lessThan(parse(current), parse("2.5.0"));
+
+  if (supportedPermissions) {
+    deno.permissions ??= {};
+    deno.permissions.lume ??= {
+      read: true,
+      write: ["./"],
+      net: ["0.0.0.0", "jsr.io:443", "cdn.jsdelivr.net:443"],
+      env: true,
+      run: true,
+      ffi: true,
+      sys: true,
+    };
+  }
+  const lumeTask = supportedPermissions
+    ? "deno run -P=lume lume/cli.ts"
+    : "deno run -A lume/cli.ts";
+
   // Configure lume tasks
   deno.tasks ??= {};
-  deno.tasks.lume ??= `echo "import 'lume/cli.ts'" | deno run -A -`;
-  deno.tasks.lume.replace(" --unstable ", " "); // Remove --unstable flag
+  deno.tasks.lume ??= lumeTask;
+  deno.tasks.lume = toTask(deno.tasks.lume, "Run Lume command");
+
+  // Update old task -> echo "import 'lume/cli.ts'" | deno run -A lume/cli.ts
+  if (deno.tasks.lume.command.startsWith("echo ")) {
+    deno.tasks.lume.command = lumeTask;
+  }
   deno.tasks.build ??= "deno task lume";
   deno.tasks.serve ??= "deno task lume -s";
+
+  deno.tasks.build = toTask(deno.tasks.build, "Build the site for production");
+  deno.tasks.serve = toTask(
+    deno.tasks.serve,
+    "Run and serve the site for development",
+  );
 
   // Configure the compiler options
   deno.compilerOptions ??= {};
@@ -148,6 +178,16 @@ function configureLume(deno: DenoConfig, lume: Package, ssx: Package) {
   if (!deno.lint.rules.exclude.includes("no-import-prefix")) {
     deno.lint.rules.exclude.push("no-import-prefix");
   }
+}
+
+function toTask(task: string | Task, description?: string): Task {
+  if (typeof task === "string") {
+    return { description, command: task };
+  }
+  if (description && !task.description) {
+    task.description = description;
+  }
+  return task;
 }
 
 async function getLumePackage(

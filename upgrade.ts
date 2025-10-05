@@ -1,7 +1,7 @@
 import { parseArgs } from "./deps.ts";
 import { Init, type InitConfig } from "./init.ts";
 import load from "./steps/load.ts";
-import { updateLume } from "./steps/start.ts";
+import { updateLume } from "./steps/lume.ts";
 import { updateCms } from "./steps/cms.ts";
 import { updateTheme } from "./steps/themes.ts";
 import update from "./steps/update.ts";
