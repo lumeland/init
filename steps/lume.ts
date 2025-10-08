@@ -178,6 +178,9 @@ function configureLume(deno: DenoConfig, lume: Package, ssx: Package) {
   if (!deno.lint.rules.exclude.includes("no-import-prefix")) {
     deno.lint.rules.exclude.push("no-import-prefix");
   }
+
+  // Disable lock file by default to avoid issues with different versions
+  deno.lock ??= false;
 }
 
 function toTask(task: string | Task, description?: string): Task {

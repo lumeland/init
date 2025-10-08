@@ -12,6 +12,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 - Upgraded minimum Deno version to `2.4.0`.
+- Disable `deno.lock` file by default because it causes a lot of conflicts.
 
 ## [0.4.3] - 2025-09-10
 ### Changed
