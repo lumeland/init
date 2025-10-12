@@ -16,7 +16,7 @@ export default function () {
         );
       }
 
-      initPlugins(config.plugins, available);
+      initPlugins(config.plugins, available, deno);
       config.plugins.forEach((name) => lume.plugins.push({ name }));
       return;
     }
@@ -35,7 +35,7 @@ export default function () {
       hint: "Use Arrow keys and Space to select. Enter to submit",
     });
 
-    initPlugins(plugins, available);
+    initPlugins(plugins, available, deno);
 
     plugins.forEach((name) => {
       lume.plugins.push({ name });
@@ -56,7 +56,7 @@ async function getAvailablePlugins(deno: DenoConfig): Promise<string[]> {
   return pluginNames;
 }
 
-function initPlugins(plugins: string[], available: string[]) {
+function initPlugins(plugins: string[], available: string[], deno: DenoConfig) {
   // Add transform_images if picture is selected
   if (plugins.includes("picture") && !plugins.includes("transform_images")) {
     plugins.push("transform_images");
@@ -66,4 +66,11 @@ function initPlugins(plugins: string[], available: string[]) {
   // This is important for plugins that depend on others
   // like transform_images and picture
   plugins.sort((a, b) => available.indexOf(a) - available.indexOf(b));
+
+  // Google fonts plugin needs net access to fetch the CSS
+  if (plugins.includes("google_fonts")) {
+    if (Array.isArray(deno.permissions?.net)) {
+      deno.permissions.net.push(["fonts.googleapis.com", "fonts.gstatic.com"]);
+    }
+  }
 }
