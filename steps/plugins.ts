@@ -70,7 +70,14 @@ function initPlugins(plugins: string[], available: string[], deno: DenoConfig) {
   // Google fonts plugin needs net access to fetch the CSS
   if (plugins.includes("google_fonts")) {
     if (Array.isArray(deno.permissions?.net)) {
-      deno.permissions.net.push(["fonts.googleapis.com", "fonts.gstatic.com"]);
+      deno.permissions.net.push(["fonts.googleapis.com:443", "fonts.gstatic.com:443"]);
+    }
+  }
+
+  // Sheets plugin needs net access to fetch the CSS
+  if (plugins.includes("sheets")) {
+    if (Array.isArray(deno.permissions?.import)) {
+      deno.permissions.import.push(["cdn.sheetjs.com:443"]);
     }
   }
 }

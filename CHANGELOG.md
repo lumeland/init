@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.3] - 2025-10-17
+### Fixed
+- Make import permissions explicit.
+- Import permissions for `sheets` plugin.
+
 ## [0.5.2] - 2025-10-17
 ### Fixed
 - Import Lume from JsDelivr.
@@ -190,6 +195,7 @@ First version
 [#3]: https://github.com/lumeland/init/issues/3
 [#4]: https://github.com/lumeland/init/issues/4
 
+[0.5.3]: https://github.com/lumeland/init/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/lumeland/init/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/lumeland/init/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/lumeland/init/compare/v0.4.3...v0.5.0
