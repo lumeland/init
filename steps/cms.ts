@@ -53,7 +53,7 @@ export default function () {
 
 export function updateCms() {
   return async ({ deno, dev }: Init) => {
-    if (!deno.tasks?.cms && !deno.imports?.["lume/cms/"]) {
+    if (!deno.imports?.["lume/cms/"]) {
       return;
     }
 
@@ -62,8 +62,6 @@ export function updateCms() {
 }
 
 async function configureCms(deno: DenoConfig, dev: boolean) {
-  deno.tasks ??= {};
-  deno.tasks.cms = `deno task lume cms`;
   const pkg = await JsDelivr.create("lumeland/cms");
 
   if (dev) {
