@@ -1,11 +1,4 @@
-import {
-  colors,
-  DenoLand,
-  JsDelivr,
-  lessThan,
-  parse,
-  Select,
-} from "../deps.ts";
+import { colors, JsDelivr, lessThan, parse, Select } from "../deps.ts";
 import { getLatestGitHubCommit, loadJSON } from "./utils.ts";
 import type { Package } from "../deps.ts";
 import type { DenoConfig, Init, Task } from "../init.ts";
@@ -47,7 +40,7 @@ export default function () {
     console.log();
 
     lume.version = lumePkg.version;
-    configureLume(deno, lumePkg, await DenoLand.create("ssx"));
+    configureLume(deno, lumePkg, await JsDelivr.create("oscarotero/ssx"));
 
     if (config.theme || config.plugins) {
       return;
@@ -81,7 +74,7 @@ export function updateLume() {
 
     const lumePkg = await getLumePackage(dev, config.version);
     lume.version = lumePkg.version;
-    configureLume(deno, lumePkg, await DenoLand.create("ssx"));
+    configureLume(deno, lumePkg, await JsDelivr.create("oscarotero/ssx"));
   };
 }
 
@@ -116,6 +109,7 @@ function configureLume(deno: DenoConfig, lume: Package, ssx: Package) {
         "jsr.io:443",
         "cdn.jsdelivr.net:443",
         "data.jsdelivr.com:443",
+        "registry.npmjs.org:443",
       ],
       env: true,
       run: true,
@@ -202,17 +196,15 @@ async function getLumePackage(
   dev: boolean,
   version?: string,
 ): Promise<Package> {
-  let lumePkg: Package;
+  const lumePkg = await JsDelivr.create("lumeland/lume");
 
   if (dev) {
-    lumePkg = await JsDelivr.create("lumeland/lume");
     lumePkg.version = await getLatestGitHubCommit(
       "lumeland/lume",
       version || "main",
     );
     return lumePkg;
   }
-  lumePkg = await DenoLand.create("lume");
 
   if (version) {
     lumePkg.version = version;

@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.2] - 2025-10-17
+### Fixed
+- Import Lume from JsDelivr.
+- Added `registry.npmjs.org:443` to net permissions.
+
 ## [0.5.1] - 2025-10-17
 ### Fixed
 - Added `data.jsdelivr.com:443` to net permissions.
@@ -185,6 +190,7 @@ First version
 [#3]: https://github.com/lumeland/init/issues/3
 [#4]: https://github.com/lumeland/init/issues/4
 
+[0.5.2]: https://github.com/lumeland/init/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/lumeland/init/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/lumeland/init/compare/v0.4.3...v0.5.0
 [0.4.3]: https://github.com/lumeland/init/compare/v0.4.2...v0.4.3
