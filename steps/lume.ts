@@ -111,7 +111,12 @@ function configureLume(deno: DenoConfig, lume: Package, ssx: Package) {
     deno.permissions.lume ??= {
       read: true,
       write: ["./"],
-      net: ["0.0.0.0", "jsr.io:443", "cdn.jsdelivr.net:443"],
+      net: [
+        "0.0.0.0",
+        "jsr.io:443",
+        "cdn.jsdelivr.net:443",
+        "data.jsdelivr.com:443",
+      ],
       env: true,
       run: true,
       ffi: true,
