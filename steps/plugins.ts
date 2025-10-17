@@ -70,7 +70,10 @@ function initPlugins(plugins: string[], available: string[], deno: DenoConfig) {
   // Google fonts plugin needs net access to fetch the CSS
   if (plugins.includes("google_fonts")) {
     if (Array.isArray(deno.permissions?.net)) {
-      deno.permissions.net.push(["fonts.googleapis.com:443", "fonts.gstatic.com:443"]);
+      deno.permissions.net.push([
+        "fonts.googleapis.com:443",
+        "fonts.gstatic.com:443",
+      ]);
     }
   }
 
