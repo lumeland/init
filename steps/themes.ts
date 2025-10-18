@@ -2,11 +2,9 @@ import { DenoLand, join, JsDelivr, Package, Select } from "../deps.ts";
 import { loadFile } from "./utils.ts";
 import type { DenoConfig, Init, LumeConfig, Theme } from "../init.ts";
 
-const themes: Theme[] =
-  (await (await fetch("https://lumeland.github.io/themes/themes.json")).json())
-    .filter(
-      (theme: Theme) => theme.lume_version === 3,
-    );
+const themesUrl = (await JsDelivr.create("lumeland/themes"))
+  .at(undefined, "/themes.json");
+const themes: Theme[] = await (await fetch(themesUrl)).json();
 
 export default function () {
   return async ({ lume, deno, files, config }: Init) => {
