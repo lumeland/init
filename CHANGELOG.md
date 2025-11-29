@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.6] - 2025-11-29
+### Fixed
+- Added `deno.land:443` and `esm.sh:443` to the list of net permissions because they are required by GitHub actions.
+
 ## [0.5.5] - 2025-10-18
 ### Fixed
 - Fetch themes from JsDelivr to avoid extra permissions configuration.
@@ -203,6 +207,7 @@ First version
 [#3]: https://github.com/lumeland/init/issues/3
 [#4]: https://github.com/lumeland/init/issues/4
 
+[0.5.6]: https://github.com/lumeland/init/compare/v0.5.5...v0.5.6
 [0.5.5]: https://github.com/lumeland/init/compare/v0.5.4...v0.5.5
 [0.5.4]: https://github.com/lumeland/init/compare/v0.5.3...v0.5.4
 [0.5.3]: https://github.com/lumeland/init/compare/v0.5.2...v0.5.3

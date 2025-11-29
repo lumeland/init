@@ -112,9 +112,11 @@ function configureLume(deno: DenoConfig, lume: Package, ssx: Package) {
       ],
       net: [
         "0.0.0.0",
-        "jsr.io:443",
         "cdn.jsdelivr.net:443",
         "data.jsdelivr.com:443",
+        "jsr.io:443",
+        "deno.land:443",
+        "esm.sh:443",
         "registry.npmjs.org:443",
       ],
       env: true,
