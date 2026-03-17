@@ -158,11 +158,19 @@ function configureLume(deno: DenoConfig, lume: Package, ssx: Package) {
 
   // Configure the unstable flag
   deno.unstable ??= [];
-  if (!deno.unstable.includes("temporal")) {
+  const stableTemporal = !lessThan(parse(current), parse("2.7.0"));
+  if (!stableTemporal && !deno.unstable.includes("temporal")) {
     deno.unstable.push("temporal");
   }
   if (!deno.unstable.includes("fmt-component")) {
     deno.unstable.push("fmt-component");
+  }
+
+  // Configure NPM scripts
+  deno.allowScripts ??= {};
+  deno.allowScripts.deny ??= [];
+  if (!deno.allowScripts.deny.includes("npm:sharp")) {
+    deno.allowScripts.deny.push("npm:sharp");
   }
 
   // Configure lint plugins

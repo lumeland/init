@@ -6,6 +6,9 @@ export interface DenoConfig {
   permissions?: Record<string, DenoPermissions>;
   compilerOptions?: CompilerOptions;
   unstable?: string[];
+  allowScripts?: {
+    deny?: string[],
+  },
   [key: string]: unknown;
   lint?: {
     plugins?: string[];
@@ -67,7 +70,6 @@ export interface Theme {
   name: string;
   description: string;
   tags: string[];
-  lume_version: 2 | 3;
   author: {
     name: string;
     url: string;
