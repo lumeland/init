@@ -7,8 +7,8 @@ export interface DenoConfig {
   compilerOptions?: CompilerOptions;
   unstable?: string[];
   allowScripts?: {
-    deny?: string[],
-  },
+    deny?: string[];
+  };
   [key: string]: unknown;
   lint?: {
     plugins?: string[];
