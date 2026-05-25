@@ -3,7 +3,7 @@ import { getLatestGitHubCommit, loadJSON } from "./utils.ts";
 import type { Package } from "../deps.ts";
 import type { DenoConfig, Init, Task } from "../init.ts";
 
-const minimum = "2.4.0";
+const minimum = "2.7.0";
 const current = Deno.version.deno;
 
 export default function () {
