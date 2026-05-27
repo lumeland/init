@@ -1,6 +1,12 @@
 import { DenoLand, join, JsDelivr, Package, Select } from "../deps.ts";
 import { loadFile } from "./utils.ts";
-import type { DenoConfig, Init, LumeConfig, Theme } from "../init.ts";
+import type {
+  DenoConfig,
+  DenoPermissions,
+  Init,
+  LumeConfig,
+  Theme,
+} from "../init.ts";
 
 const themesUrl = (await JsDelivr.create("lumeland/themes"))
   .at(undefined, "/themes.json");
@@ -77,7 +83,7 @@ async function setupTheme(
   files: Map<string, string | Uint8Array>,
 ) {
   const themePkg = await resolveOrigin(theme.module.origin);
-  const name = theme.module.name;
+  const name = "theme";
 
   // Configure Lume
   lume.theme = theme;
@@ -117,10 +123,52 @@ async function setupTheme(
     }
   }
 
+  // Configure extra permissions
+  for (const [key, values] of Object.entries(theme.module.permissions ?? {})) {
+    const name = key as keyof DenoPermissions;
+    let permissions = deno.permissions?.lume?.[name];
+
+    for (const value of values) {
+      if (Array.isArray(permissions)) {
+        if (!permissions.includes(value)) {
+          permissions.push(value);
+        }
+        continue;
+      }
+
+      if (!permissions) {
+        permissions = { allow: [value] };
+        continue;
+      }
+
+      if (permissions === true) {
+        continue;
+      }
+
+      if (!permissions.allow) {
+        permissions.allow = [value];
+        continue;
+      }
+
+      if (permissions.allow === true) {
+        continue;
+      }
+
+      if (!permissions.allow.includes(value)) {
+        permissions.allow.push(value);
+      }
+    }
+
+    deno.permissions ??= {};
+    deno.permissions.lume ??= {};
+    // @ts-ignore: ts is not clever enough
+    deno.permissions.lume[name] = permissions;
+  }
+
   // Configure the CMS
   if (theme.module.cms) {
     const name = lume.file.endsWith(".js") ? "/_cms.js" : "/_cms.ts";
-    const url = theme.module.name + theme.module.cms;
+    const url = `theme${theme.module.cms}`;
 
     files.set(
       name,

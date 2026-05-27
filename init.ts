@@ -90,6 +90,10 @@ export interface Theme {
     unstable?: string[];
     imports?: Record<string, string>;
     compilerOptions?: CompilerOptions;
+    permissions?: {
+      import?: string[];
+      net?: string[];
+    };
   };
 }
 

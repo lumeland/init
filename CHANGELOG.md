@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.6.0] - 2026-05-27
+### Added
+- `npm:@parcel/watcher` to the list of denied scripts (it's an optional dependency of SASS).
+
+### Changed
+- Themes: The specifier name for all themes is "theme".
+- Themes: Support for custom permissions.
+
 ## [0.5.8] - 2026-05-25
 ### Changed
 - Set minimum Deno version supported to 2.7.x.
@@ -218,6 +226,7 @@ First version
 [#3]: https://github.com/lumeland/init/issues/3
 [#4]: https://github.com/lumeland/init/issues/4
 
+[0.6.0]: https://github.com/lumeland/init/compare/v0.5.8...v0.6.0
 [0.5.8]: https://github.com/lumeland/init/compare/v0.5.7...v0.5.8
 [0.5.7]: https://github.com/lumeland/init/compare/v0.5.6...v0.5.7
 [0.5.6]: https://github.com/lumeland/init/compare/v0.5.5...v0.5.6

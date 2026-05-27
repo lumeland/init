@@ -172,6 +172,9 @@ function configureLume(deno: DenoConfig, lume: Package, ssx: Package) {
   if (!deno.allowScripts.deny.includes("npm:sharp")) {
     deno.allowScripts.deny.push("npm:sharp");
   }
+  if (!deno.allowScripts.deny.includes("npm:@parcel/watcher")) {
+    deno.allowScripts.deny.push("npm:@parcel/watcher");
+  }
 
   // Configure lint plugins
   deno.lint ??= {};
