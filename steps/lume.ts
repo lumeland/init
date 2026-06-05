@@ -147,7 +147,10 @@ function configureLume(deno: DenoConfig, lume: Package, ssx: Package) {
     deno.tasks.serve,
     "Run and serve the site for development",
   );
-  deno.tasks.new = toTask(deno.tasks.new, "Create new content or code using artifacts");
+  deno.tasks.new = toTask(
+    deno.tasks.new,
+    "Create new content or code using artifacts",
+  );
 
   // Configure the compiler options
   deno.compilerOptions ??= {};
