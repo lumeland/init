@@ -1,4 +1,4 @@
-import { DenoLand, join, JsDelivr, Package, Select } from "../deps.ts";
+import { DenoLand, join, JsDelivr, Package, Select, Https, toFileUrl } from "../deps.ts";
 import { loadFile } from "./utils.ts";
 import type {
   DenoConfig,
@@ -15,7 +15,7 @@ const themes: Theme[] = await (await fetch(themesUrl)).json();
 export default function () {
   return async ({ lume, deno, files, config }: Init) => {
     if (config.theme) {
-      const theme = themes.find((theme: Theme) => theme.id === config.theme);
+      const theme = await getTheme(config.theme);
 
       if (theme) {
         await setupTheme(theme, lume, deno, files);
@@ -48,32 +48,24 @@ export default function () {
   };
 }
 
-export function updateTheme() {
-  return async ({ lume, deno, files }: Init) => {
-    const theme = detectTheme(deno);
+async function getTheme(name: string): Promise<Theme | undefined> {
+  if (name.startsWith("https://") || name.startsWith(".")) {
+    const url = getThemeUrl(name);
+    const theme = await (await fetch(url)).json();
+    return theme;
+  }
 
-    if (theme) {
-      await setupTheme(theme, lume, deno, files);
-    }
-  };
+  return themes.find((theme: Theme) => theme.id === name);
 }
 
-function detectTheme(deno: DenoConfig): Theme | undefined {
-  const { imports } = deno;
-
-  if (!imports) {
-    return;
+function getThemeUrl(name: string): URL {
+  if (name.startsWith("https://")) {
+    return new URL(name);
   }
 
-  for (const theme of themes) {
-    const origin = theme.module.origin;
-
-    for (const key in imports) {
-      if (imports[key].startsWith(origin)) {
-        return theme;
-      }
-    }
-  }
+  const url = toFileUrl(Deno.cwd());
+  url.pathname = join(url.pathname, name);
+  return url;
 }
 
 async function setupTheme(
@@ -207,5 +199,5 @@ async function resolveOrigin(url: string): Promise<Package> {
     return await JsDelivr.create(name);
   }
 
-  throw new Error(`Could not resolve origin for ${url}`);
+  return Https.create(url);
 }

@@ -3,7 +3,6 @@ import { Init, type InitConfig } from "./init.ts";
 import load from "./steps/load.ts";
 import { updateLume } from "./steps/lume.ts";
 import { updateCms } from "./steps/cms.ts";
-import { updateTheme } from "./steps/themes.ts";
 import update from "./steps/update.ts";
 
 export default function init(initConfig: InitConfig) {
@@ -12,7 +11,6 @@ export default function init(initConfig: InitConfig) {
   init.use(load());
   init.use(updateLume());
   init.use(updateCms());
-  init.use(updateTheme());
   init.use(update());
 
   return init;
