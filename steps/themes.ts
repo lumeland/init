@@ -1,12 +1,15 @@
-import { DenoLand, join, JsDelivr, Package, Select, Https, toFileUrl } from "../deps.ts";
+import {
+  DenoLand,
+  Https,
+  join,
+  JsDelivr,
+  Package,
+  Select,
+  toFileUrl,
+} from "../deps.ts";
 import { loadFile } from "./utils.ts";
-import type {
-  DenoConfig,
-  DenoPermissions,
-  Init,
-  LumeConfig,
-  Theme,
-} from "../init.ts";
+import type { DenoConfig, DenoPermissions, Init, LumeConfig } from "../init.ts";
+import type { Theme } from "../deps.ts";
 
 const themesUrl = (await JsDelivr.create("lumeland/themes"))
   .at(undefined, "/themes.json");
@@ -48,6 +51,18 @@ export default function () {
   };
 }
 
+export function updateTheme() {
+  return async ({ deno }: Init) => {
+    if (!deno.imports?.["theme/"]) {
+      return;
+    }
+
+    const themePkg = parsePackage(deno.imports["theme/"]);
+    await themePkg.toLatestVersion();
+    deno.imports["theme/"] = themePkg.url;
+  };
+}
+
 async function getTheme(name: string): Promise<Theme | undefined> {
   if (name.startsWith("https://") || name.startsWith(".")) {
     const url = getThemeUrl(name);
@@ -74,7 +89,7 @@ async function setupTheme(
   deno: DenoConfig,
   files: Map<string, string | Uint8Array>,
 ) {
-  const themePkg = await resolveOrigin(theme.module.origin);
+  const themePkg = await getPackage(theme.module.origin);
   const name = "theme";
 
   // Configure Lume
@@ -183,7 +198,7 @@ async function setupTheme(
   }
 }
 
-async function resolveOrigin(url: string): Promise<Package> {
+async function getPackage(url: string): Promise<Package> {
   const denoland = url.match(/^https:\/\/deno.land\/x\/([^\/]+)$/);
 
   if (denoland) {
@@ -194,10 +209,22 @@ async function resolveOrigin(url: string): Promise<Package> {
   const jsdelivr = url.match(
     /^https:\/\/cdn\.jsdelivr\.net\/gh\/([^\/]+\/[^\/]+)$/,
   );
+
   if (jsdelivr) {
     const [, name] = jsdelivr;
     return await JsDelivr.create(name);
   }
 
   return Https.create(url);
+}
+
+function parsePackage(url: string): Package {
+  if (DenoLand.regexp.some((r) => r.test(url))) {
+    return DenoLand.parse(url);
+  }
+  if (JsDelivr.regexp.some((r) => r.test(url))) {
+    return JsDelivr.parse(url);
+  }
+
+  return Https.parse(url);
 }

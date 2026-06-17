@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.7.1] - 2026-06-17
+### Added
+- Update the themes.
+
 ## [0.7.0] - 2026-06-17
 ### Added
 - Allow to install any theme using the manifest URL. For example:
@@ -240,6 +244,7 @@ First version
 [#3]: https://github.com/lumeland/init/issues/3
 [#4]: https://github.com/lumeland/init/issues/4
 
+[0.7.1]: https://github.com/lumeland/init/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/lumeland/init/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/lumeland/init/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/lumeland/init/compare/v0.5.8...v0.6.0

@@ -16,4 +16,8 @@ export { parse as parseJsonc } from "https://deno.land/std@0.224.0/jsonc/parse.t
 export type { Package } from "https://deno.land/x/nudd@v0.2.12/registry/utils.ts";
 export { JsDelivr } from "https://deno.land/x/nudd@v0.2.12/registry/jsdelivr.ts";
 export { DenoLand } from "https://deno.land/x/nudd@v0.2.12/registry/denoland.ts";
-export { Https } from "https://deno.land/x/nudd@v0.2.12/registry/https.ts"
+export { Https } from "https://deno.land/x/nudd@v0.2.12/registry/https.ts";
+export type {
+  CompilerOptions,
+  Theme,
+} from "https://cdn.jsdelivr.net/gh/lumeland/themes@0.0.11/theme.ts";

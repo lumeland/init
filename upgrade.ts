@@ -2,6 +2,7 @@ import { parseArgs } from "./deps.ts";
 import { Init, type InitConfig } from "./init.ts";
 import load from "./steps/load.ts";
 import { updateLume } from "./steps/lume.ts";
+import { updateTheme } from "./steps/themes.ts";
 import { updateCms } from "./steps/cms.ts";
 import update from "./steps/update.ts";
 
@@ -10,6 +11,7 @@ export default function init(initConfig: InitConfig) {
 
   init.use(load());
   init.use(updateLume());
+  init.use(updateTheme());
   init.use(updateCms());
   init.use(update());
 

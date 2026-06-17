@@ -1,3 +1,5 @@
+import { CompilerOptions, Theme } from "./deps.ts";
+
 /** Content of deno.json file */
 export interface DenoConfig {
   importMap?: string;
@@ -35,15 +37,6 @@ export type DenoPermissionValue = string[] | boolean | {
   deny?: string[] | boolean;
 };
 
-export interface CompilerOptions {
-  jsx?: "jsx" | "react-jsx" | "precompile";
-  jsxImportSource?: string;
-  jsxImportSourceTypes?: string;
-  jsxFactory?: string;
-  jsxFragmentFactory?: string;
-  types?: string[];
-}
-
 export interface Task {
   description?: string;
   command: string;
@@ -62,39 +55,6 @@ export interface LumeConfig {
   plugins: LumePlugin[];
   src: string;
   theme?: Theme;
-}
-
-/** Theme manifest */
-export interface Theme {
-  id: string;
-  name: string;
-  description: string;
-  tags: string[];
-  author: {
-    name: string;
-    url: string;
-  };
-  repo: string;
-  demo: string;
-  screens: {
-    desktop: string[];
-    mobile: string[];
-  };
-  module: {
-    name: string;
-    origin: string;
-    main: string;
-    cms?: string;
-    src?: string[];
-    srcdir?: string;
-    unstable?: string[];
-    imports?: Record<string, string>;
-    compilerOptions?: CompilerOptions;
-    permissions?: {
-      import?: string[];
-      net?: string[];
-    };
-  };
 }
 
 /** Step of the initialization */
