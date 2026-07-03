@@ -112,6 +112,7 @@ function configureLume(deno: DenoConfig, lume: Package, ssx: Package) {
       ],
       net: [
         "0.0.0.0",
+        "127.0.0.1:9229",
         "cdn.jsdelivr.net:443",
         "data.jsdelivr.com:443",
         "jsr.io:443",
